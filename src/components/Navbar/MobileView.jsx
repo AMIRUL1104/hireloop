@@ -65,12 +65,14 @@ function MobileView() {
             <li className="mt-4 flex flex-col gap-2 border-t border-separator pt-4">
               <Link
                 href="/signin"
-                className="block py-2 font-medium text-accent"
+                className="block py-2 font-medium text-[#5C53FE]"
               >
                 Sign In
               </Link>
-              <Link href="/signup" className="block py-2">
-                <Button className="w-full">Sign Up</Button>
+              <Link href="/Getstart" className="block rounded-2xl bg-white">
+                <Button className="w-full  bg-white text-black">
+                  Get Started
+                </Button>
               </Link>
             </li>
           </ul>
