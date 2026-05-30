@@ -18,7 +18,7 @@ export default function Banner() {
 
           {/* Globe Image */}
           <div
-            className="absolute inset-0 bg-contain bg-center bg-no-repeat opacity-100"
+            className="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-100"
             style={{
               backgroundImage: "url(/images/globe.png)",
             }}

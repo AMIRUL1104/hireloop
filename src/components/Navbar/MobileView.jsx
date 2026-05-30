@@ -9,15 +9,14 @@ function MobileView() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   return (
     <>
-      <header className="md:hidden mx-auto flex h-16 max-w-400 items-center justify-between px-6">
+      <header className="md:hidden w-full h-16 flex items-center px-6 justify-between">
+        {/* Left - Menu */}
         <div className="flex items-center gap-4">
           <button
-            className="md:hidden"
             onClick={() => setIsMenuOpen(!isMenuOpen)}
             aria-label="Toggle menu"
             aria-expanded={isMenuOpen}
           >
-            <span className="sr-only">Menu</span>
             <svg
               className="h-6 w-6"
               fill="none"
@@ -41,10 +40,15 @@ function MobileView() {
               )}
             </svg>
           </button>
-          <div className="flex items-center gap-3">
-            <p className="font-bold">HireLoop</p>
-          </div>
         </div>
+
+        {/* Center/Right - Logo */}
+        <Link href="/" className="flex items-center gap-2">
+          <div className="w-6 h-6 bg-gradient-to-r from-purple-500 to-blue-500 rounded-lg flex items-center justify-center">
+            <span className="text-white font-bold text-lg">H</span>
+          </div>
+          <h3 className="text-xl font-bold">HireLoop</h3>
+        </Link>
       </header>
       {isMenuOpen && (
         <div className="border-t border-separator md:hidden">
