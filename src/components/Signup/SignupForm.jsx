@@ -60,11 +60,15 @@ const SignupForm = () => {
     clearErrors();
     setSuccess(false); // নতুন সাবমিশনের আগে আগের সাকসেস স্টেট রিসেট করা ভালো
 
+    // console.log(userdata);
+
     try {
-      const { name, email, password } = userdata;
+      const { name, email, password, company } = userdata;
 
       // ১. ব্যাকএন্ডে ডেটা পাঠানো (Real API Call)
       const { data, error } = await authClient.signUp.email({
+        role: role,
+        company: company,
         name: name, // required
         email: email, // required
         password: password, // required
@@ -102,13 +106,13 @@ const SignupForm = () => {
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
       {/* Role Selector */}
-      <div className="grid grid-cols-2 gap-2 bg-white/5 p-1.5 rounded-2xl border border-white/10 mb-8">
+      <div className="grid grid-cols-2 gap-2 bg-white/5 p-1.5 rounded-2xl border border-white/10 mb-8 z-80">
         <button
           type="button"
           onClick={() => setRole("seeker")}
           className={`py-3 px-4 rounded-xl font-semibold transition-all flex items-center justify-center gap-2 text-sm ${
             role === "seeker"
-              ? "bg-gradient-to-r from-blue-500 to-violet-500 text-white"
+              ? "bg-linear-to-r from-blue-500 to-violet-500 text-white"
               : "text-slate-400 hover:bg-white/5"
           }`}
         >
@@ -119,7 +123,7 @@ const SignupForm = () => {
           onClick={() => setRole("recruiter")}
           className={`py-3 px-4 rounded-xl font-semibold transition-all flex items-center justify-center gap-2 text-sm ${
             role === "recruiter"
-              ? "bg-gradient-to-r from-blue-500 to-violet-500 text-white"
+              ? "bg-linear-to-r from-blue-500 to-violet-500 text-white"
               : "text-slate-400 hover:bg-white/5"
           }`}
         >
@@ -314,7 +318,7 @@ const SignupForm = () => {
       <button
         type="submit"
         disabled={isSubmitting}
-        className="w-full py-4 bg-gradient-to-r from-blue-500 to-violet-600 rounded-2xl font-semibold text-lg text-white hover:brightness-110 transition-all disabled:opacity-70 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+        className="w-full py-4 bg-linear-to-r from-blue-500 to-violet-600 rounded-2xl font-semibold text-lg text-white hover:brightness-110 transition-all disabled:opacity-70 disabled:cursor-not-allowed flex items-center justify-center gap-2"
       >
         {isSubmitting ? "Creating Account..." : "Create Account"}
       </button>

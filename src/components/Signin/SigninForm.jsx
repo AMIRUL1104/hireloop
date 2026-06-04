@@ -144,7 +144,7 @@ const SigninForm = () => {
       <button
         type="submit"
         disabled={isSubmitting}
-        className="w-full py-4 bg-gradient-to-r from-blue-500 via-violet-600 to-purple-600 rounded-2xl font-semibold text-lg text-white hover:brightness-110 active:scale-[0.985] transition-all duration-300 disabled:opacity-70 disabled:cursor-not-allowed flex items-center justify-center gap-2 shadow-lg shadow-violet-500/30"
+        className="w-full py-4 bg-linear-to-r from-blue-500 via-violet-600 to-purple-600 rounded-2xl font-semibold text-lg text-white hover:brightness-110 active:scale-[0.985] transition-all duration-300 disabled:opacity-70 disabled:cursor-not-allowed flex items-center justify-center gap-2 shadow-lg shadow-violet-500/30"
       >
         {isSubmitting ? "Signing In..." : "Sign In"}
       </button>
