@@ -37,7 +37,7 @@ const SigninForm = () => {
 
       // ২. যদি ব্যাকএন্ড থেকে কোনো এরর আসে (ভুল পাসওয়ার্ড বা ইমেইল)
       if (error) {
-        console.error("Sign in error:", error.message);
+        // console.error("Sign in error:", error.message);
         toast.error(error.message || "An error occurred during sign in.");
         // প্রয়োজন হলে এখানে এরর স্টেট সেট করতে পারো
         return; // এরর আসলে ফাংশন এখানেই থেমে যাবে
@@ -46,7 +46,7 @@ const SigninForm = () => {
       // ৩. যদি সাইন-ইন সফল হয় (Success Flow)
       if (data) {
         setSuccess(true);
-        console.log("Sign in successful:", data);
+        // console.log("Sign in successful:", data);
 
         // ২.২ সেকেন্ড পর সাকসেস মেসেজটি হাইড করার জন্য (তোমার আগের টাইমিং অনুযায়ী)
         setTimeout(() => {
@@ -153,7 +153,7 @@ const SigninForm = () => {
       {success && (
         <div className="p-4 bg-emerald-500/10 border border-emerald-500/30 rounded-2xl text-emerald-400 flex items-center justify-center gap-2 text-center">
           <CheckCircle size={20} />
-          <strong>Sign in successful! Redirecting to dashboard...</strong>
+          <strong>Sign in successful! Redirecting ...</strong>
         </div>
       )}
 

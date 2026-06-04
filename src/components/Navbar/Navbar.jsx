@@ -1,12 +1,22 @@
 import { Link, Button } from "@heroui/react";
 import MobileView from "./MobileView";
 import Image from "next/image";
+import ProfileDropdown from "./ProfileDropDown";
+import { auth } from "@/lib/auth";
+import { headers } from "next/headers";
+
 // import logo from "/images/logo.png";
-function Navbar() {
+async function Navbar() {
+  // 1. Fetch session data server-side by passing the headers
+  const sessionData = await auth.api.getSession({
+    headers: await headers(),
+  });
+
   return (
     <nav className="sticky top-0 z-40 w-full border-b border-separator bg-background/70 backdrop-blur-lg">
       {/* desktop view */}
       <header className="max-md:hidden mx-auto flex h-16 max-w-400 items-center justify-between px-6">
+        {/* left part */}
         <Link
           href="/"
           className="flex items-center gap-2 mb-4  no-underline hover:opacity-90 transition"
@@ -17,7 +27,9 @@ function Navbar() {
           <h3 className="text-xl font-bold">HireLoop</h3>
         </Link>
 
+        {/* right part */}
         <div className="hidden items-center gap-4 md:flex py-1 px-3 rounded-2xl bg-[#222222]">
+          {/* route links */}
           <ul className="hidden items-center gap-4 md:flex">
             <li>
               <Link href="/jobs" className="block py-2">
@@ -33,12 +45,20 @@ function Navbar() {
               </Link>
             </li>
           </ul>
-          <Link
-            className="block py-2 font-medium text-[#5C53FE]"
-            href="/signin"
-          >
-            Sign In
-          </Link>
+
+          {/* auth buttons */}
+          {!sessionData ? (
+            <Link
+              className="block py-2 font-medium text-[#5C53FE]"
+              href="/signin"
+            >
+              Sign In
+            </Link>
+          ) : (
+            <ProfileDropdown />
+          )}
+
+          {/*  */}
           <Button className={"bg-white text-black"} href="/Getstart">
             Get Started
           </Button>
