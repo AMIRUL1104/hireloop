@@ -1,6 +1,8 @@
 "use client";
 
+import { authClient } from "@/lib/auth-client";
 import Image from "next/image";
+import { redirect } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { BiBuilding, BiCheckCircle, BiLock } from "react-icons/bi";
@@ -53,20 +55,48 @@ const SignupForm = () => {
     });
   };
 
-  const onSubmit = async (data) => {
+  const onSubmit = async (userdata) => {
     setIsSubmitting(true);
     clearErrors();
+    setSuccess(false); // নতুন সাবমিশনের আগে আগের সাকসেস স্টেট রিসেট করা ভালো
 
-    // Simulate API call
-    setTimeout(() => {
-      setSuccess(true);
+    try {
+      const { name, email, password } = userdata;
+
+      // ১. ব্যাকএন্ডে ডেটা পাঠানো (Real API Call)
+      const { data, error } = await authClient.signUp.email({
+        name: name, // required
+        email: email, // required
+        password: password, // required
+        callbackURL: "/",
+      });
+
+      // ২. যদি ব্যাকএন্ড থেকে কোনো এরর আসে
+      if (error) {
+        console.error("Signup error:", error.message);
+        // এখানে তুমি চাইলে setError("apiError", { message: error.message }) সেট করতে পারো
+        return; // এরর আসলে ফাংশন এখানেই থেমে যাবে, নিচের কোড রান হবে না
+      }
+
+      // ৩. যদি সাইন-আপ সফল হয় (Success Flow)
+      if (data) {
+        setSuccess(true);
+        console.log("Account created successfully:", { ...userdata, role });
+
+        // ২.৫ সেকেন্ড পর সাকসেস মেসেজটি হাইড করার জন্য
+        setTimeout(() => {
+          setSuccess(false);
+          // রিডাইরেক্ট করতে চাইলে নিচের কমেন্টটি আনকমেন্ট করো
+          redirect("/");
+        }, 2500);
+      }
+    } catch (err) {
+      // নেটওয়ার্ক ফেইলর বা অন্য কোনো আনএক্সপেক্টেড এরর হ্যান্ডেল করার জন্য
+      console.error("An unexpected error occurred:", err);
+    } finally {
+      // সাকসেস হোক বা এরর—সবশেষে লোডিং স্টেট বন্ধ হবে
       setIsSubmitting(false);
-
-      setTimeout(() => {
-        setSuccess(false);
-        console.log("Account created successfully:", { ...data, role });
-      }, 2500);
-    }, 1600);
+    }
   };
 
   return (

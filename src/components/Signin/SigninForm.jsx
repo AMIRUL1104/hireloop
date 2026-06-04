@@ -4,6 +4,8 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { Mail, Lock, Eye, EyeOff, CheckCircle } from "lucide-react";
 import Image from "next/image";
+import { authClient } from "@/lib/auth-client";
+import { toast } from "react-toastify";
 
 const SigninForm = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -13,23 +15,53 @@ const SigninForm = () => {
   const {
     register,
     handleSubmit,
+    clearErrors,
     formState: { errors },
   } = useForm();
 
-  const onSubmit = async (data) => {
+  const onSubmit = async (userdata) => {
     setIsSubmitting(true);
+    clearErrors();
+    setSuccess(false); // নতুন সাবমিশনের আগে আগের সাকসেস স্টেট রিসেট করা ভালো
 
-    // Simulate API call
-    setTimeout(() => {
-      setIsSubmitting(false);
-      setSuccess(true);
+    try {
+      // সাইন-ইনের জন্য শুধু email এবং password প্রয়োজন
+      const { email, password } = userdata;
 
-      setTimeout(() => {
-        setSuccess(false);
+      // ১. ব্যাকএন্ডে সাইন-ইন রিকোয়েস্ট পাঠানো (Real API Call)
+      const { data, error } = await authClient.signIn.email({
+        email: email, // required
+        password: password, // required
+        callbackURL: "/", // সফল লগইনের পর যেখানে রিডাইরেক্ট হবে
+      });
+
+      // ২. যদি ব্যাকএন্ড থেকে কোনো এরর আসে (ভুল পাসওয়ার্ড বা ইমেইল)
+      if (error) {
+        console.error("Sign in error:", error.message);
+        toast.error(error.message || "An error occurred during sign in.");
+        // প্রয়োজন হলে এখানে এরর স্টেট সেট করতে পারো
+        return; // এরর আসলে ফাংশন এখানেই থেমে যাবে
+      }
+
+      // ৩. যদি সাইন-ইন সফল হয় (Success Flow)
+      if (data) {
+        setSuccess(true);
         console.log("Sign in successful:", data);
-        // Redirect to dashboard in real app
-      }, 2200);
-    }, 1400);
+
+        // ২.২ সেকেন্ড পর সাকসেস মেসেজটি হাইড করার জন্য (তোমার আগের টাইমিং অনুযায়ী)
+        setTimeout(() => {
+          setSuccess(false);
+          // ড্যাশবোর্ড বা হোম পেজে রিডাইরেক্ট করতে চাইলে নিচের লাইনটি আনকমেন্ট করো
+          redirect("/");
+        }, 2200);
+      }
+    } catch (err) {
+      // নেটওয়ার্ক ইস্যু বা অন্য কোনো আনএক্সপেক্টেড এরর হ্যান্ডেল করার জন্য
+      console.error("An unexpected error occurred during sign in:", err);
+    } finally {
+      // সাকসেস হোক বা এরর—সবশেষে লোডিং স্টেট বন্ধ হবে
+      setIsSubmitting(false);
+    }
   };
 
   return (
