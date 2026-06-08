@@ -21,6 +21,9 @@ export const auth = betterAuth({
       company: {
         default: null,
       },
+      companyId: {
+        default: null,
+      },
     },
   },
 });

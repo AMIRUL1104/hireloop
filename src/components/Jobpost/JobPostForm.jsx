@@ -25,6 +25,9 @@ import {
 } from "react-icons/fi";
 import { FaBuilding } from "react-icons/fa";
 import SubmitButton from "./PostSubmit";
+import { toast } from "react-toastify";
+import { AddJobPost } from "@/lib/Server/actions/job";
+import { redirect } from "next/navigation";
 
 // ── Static options ─────────────────────────────────────────────────────────────
 const JOB_CATEGORIES = [
@@ -78,11 +81,48 @@ export default function JobPostForm({ recruiter }) {
   });
 
   const onSubmit = async (data) => {
+    // সাবমিশন শুরু হওয়ার সাথে সাথে স্টেট আপডেট
     setIsSubmitting(true);
-    await new Promise((r) => setTimeout(r, 2000));
-    console.log("Job post payload:", { ...data, isRemote });
-    setIsSubmitting(false);
-    setIsSuccess(true);
+
+    const companyId = await recruiter?.companyId;
+    // console.log(companyId);
+
+    try {
+      // ডাটা পেলোড তৈরি
+      const jobPayload = {
+        ...data,
+        isRemote,
+        companyId: companyId, // দ্রষ্টব্য: ব্যাকএন্ডে আইডি জেনারেট করা বেশি নিরাপদ
+        status: "active",
+        isPubliclyVisible: true,
+        createdAt: new Date().toISOString(), // প্রোডাকশন কোডে টাইমস্ট্যাম্প রাখা ভালো
+      };
+
+      // console.log(jobPayload);
+
+      // API বা ডাটাবেজ অপারেশন
+      const result = await AddJobPost(jobPayload);
+      // console.log(result);
+
+      // রেসপন্স চেক এবং সাকসেস হ্যান্ডলিং
+      if (result?.insertedId) {
+        toast.success("Job post created successfully!");
+        setIsSuccess(true);
+
+        // এখানে চাইলে ফর্ম রিসেট (e.g., reset()) কল করতে পারেন
+      } else {
+        // যদি API কোনো এরর না দিয়েও ব্যর্থ হয়
+        throw new Error("Failed to insert job post");
+      }
+    } catch (error) {
+      // এরর হ্যান্ডলিং এবং ইউজারকে নোটিফিকেশন
+      console.error("Error creating job post:", error);
+      toast.error(error?.message || "Something went wrong. Please try again.");
+      setIsSuccess(false);
+    } finally {
+      // সাকসেস বা এরর যাই হোক, সাবমিটিং স্টেট অবশ্যই ফলস হবে
+      setIsSubmitting(false);
+    }
   };
 
   // ── Success screen ──────────────────────────────────────────────────────────

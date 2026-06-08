@@ -69,6 +69,7 @@ const SignupForm = () => {
       const { data, error } = await authClient.signUp.email({
         role: role,
         company: company,
+        companyId: crypto.randomUUID(),
         name: name, // required
         email: email, // required
         password: password, // required
