@@ -55,6 +55,113 @@ const SignupForm = () => {
     });
   };
 
+  // const users = [
+  //   {
+  //     role: "recruiter",
+  //     company: "adobe",
+  //     companyId: "adobe-001",
+  //     name: "Adobe Recruiter",
+  //     email: "adobe.recruiter@hireloop.dev",
+  //     password: "11111111",
+  //   },
+  //   {
+  //     role: "recruiter",
+  //     company: "airbnb",
+  //     companyId: "airbnb-002",
+  //     name: "Airbnb Recruiter",
+  //     email: "airbnb.recruiter@hireloop.dev",
+  //     password: "11111111",
+  //   },
+  //   {
+  //     role: "recruiter",
+  //     company: "amazon",
+  //     companyId: "amazon-003",
+  //     name: "Amazon Recruiter",
+  //     email: "amazon.recruiter@hireloop.dev",
+  //     password: "11111111",
+  //   },
+  //   {
+  //     role: "recruiter",
+  //     company: "apple",
+  //     companyId: "apple-004",
+  //     name: "Apple Recruiter",
+  //     email: "apple.recruiter@hireloop.dev",
+  //     password: "11111111",
+  //   },
+  //   {
+  //     role: "recruiter",
+  //     company: "google",
+  //     companyId: "google-005",
+  //     name: "Google Recruiter",
+  //     email: "google.recruiter@hireloop.dev",
+  //     password: "11111111",
+  //   },
+  //   {
+  //     role: "recruiter",
+  //     company: "meta",
+  //     companyId: "meta-006",
+  //     name: "Meta Recruiter",
+  //     email: "meta.recruiter@hireloop.dev",
+  //     password: "11111111",
+  //   },
+  //   {
+  //     role: "recruiter",
+  //     company: "microsoft",
+  //     companyId: "microsoft-007",
+  //     name: "Microsoft Recruiter",
+  //     email: "microsoft.recruiter@hireloop.dev",
+  //     password: "11111111",
+  //   },
+  //   {
+  //     role: "recruiter",
+  //     company: "netflix",
+  //     companyId: "netflix-008",
+  //     name: "Netflix Recruiter",
+  //     email: "netflix.recruiter@hireloop.dev",
+  //     password: "11111111",
+  //   },
+  //   {
+  //     role: "recruiter",
+  //     company: "nvidia",
+  //     companyId: "nvidia-009",
+  //     name: "Nvidia Recruiter",
+  //     email: "nvidia.recruiter@hireloop.dev",
+  //     password: "11111111",
+  //   },
+  //   {
+  //     role: "recruiter",
+  //     company: "spotify",
+  //     companyId: "spotify-010",
+  //     name: "Spotify Recruiter",
+  //     email: "spotify.recruiter@hireloop.dev",
+  //     password: "11111111",
+  //   },
+  //   {
+  //     role: "recruiter",
+  //     company: "tesla",
+  //     companyId: "tesla-011",
+  //     name: "Tesla Recruiter",
+  //     email: "tesla.recruiter@hireloop.dev",
+  //     password: "11111111",
+  //   },
+  //   {
+  //     role: "recruiter",
+  //     company: "uber",
+  //     companyId: "uber-012",
+  //     name: "Uber Recruiter",
+  //     email: "uber.recruiter@hireloop.dev",
+  //     password: "11111111",
+  //   },
+  // ];
+
+  // let setUser = async () => {
+  //   for (const user of users) {
+  //     await authClient.signUp.email(user);
+  //   }
+  // };
+
+  // setUser();
+
   const onSubmit = async (userdata) => {
     setIsSubmitting(true);
     clearErrors();

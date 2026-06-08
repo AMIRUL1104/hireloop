@@ -8,28 +8,49 @@ import {
   Person,
 } from "@gravity-ui/icons";
 import { Button, Drawer } from "@heroui/react";
+import { Cannabis, Factory, Mail, Settings } from "lucide-react";
+import Link from "next/link";
+import { BsPostcard } from "react-icons/bs";
 
 export function DashboardSidebar() {
   const navItems = [
-    { icon: House, label: "Home" },
-    { icon: Magnifier, label: "Search" },
-    { icon: Bell, label: "Notifications" },
-    { icon: Envelope, label: "Messages" },
-    { icon: Person, label: "Profile" },
-    { icon: Gear, label: "Settings" },
+    { icon: House, label: "Home", href: "/" },
+    { icon: Cannabis, label: "Job", href: "/dashboard/recruiter/job" },
+    {
+      icon: BsPostcard,
+      label: "Post A Job",
+      href: "/dashboard/recruiter/job/job-post",
+    },
+    {
+      icon: Factory,
+      label: "Company Profile",
+      href: "/dashboard/recruiter/company",
+    },
+    { icon: Person, label: "Profile", href: "/dashboard/recruiter/profile" },
+    { icon: Mail, label: "Messages", href: "/dashboard/recruiter/messages" },
+    {
+      icon: Settings,
+      label: "Settings",
+      href: "/dashboard/recruiter/settings",
+    },
   ];
 
   const drawerItems = (
     <nav className="flex flex-col gap-1">
       {navItems.map((item) => (
-        <button
+        <Link
+          href={item.href}
           key={item.label}
-          className="flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm text-foreground transition-colors hover:bg-default"
-          type="button"
+          className="px-3 py-2.5 hover:bg-default rounded-xl transition-colors "
         >
-          <item.icon className="size-5 text-muted" />
-          {item.label}
-        </button>
+          <button
+            className="flex items-center gap-3 rounded-xl  text-sm text-foreground transition-colors hover:bg-default"
+            type="button"
+          >
+            <item.icon className="size-5 text-muted" />
+            {item.label}
+          </button>
+        </Link>
       ))}
     </nav>
   );
