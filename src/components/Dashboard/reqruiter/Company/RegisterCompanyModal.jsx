@@ -1,58 +1,37 @@
-// src/components/Dashboard/reqruiter/Company/RegisterCompanyModal.jsx
 "use client";
 
 import React from "react";
-import { Modal, Button } from "@heroui/react"; // Only import needed components
+import { Modal } from "@heroui/react";
+import CompanyRegisterForm from "./CompanyRegisterForm";
 
 export default function RegisterCompanyModal({ isOpen, onOpenChange }) {
   return (
-    <Modal isOpen={isOpen} onOpenChange={onOpenChange}>
-      {/* Hero UI v3 Uses Backdrop and Container Sub-components */}
-      <Modal.Backdrop className="backdrop-blur-sm" />
+    <Modal>
+      <Modal.Backdrop
+        isOpen={isOpen}
+        onOpenChange={onOpenChange}
+        variant="blur"
+        className="backdrop-blur-md bg-black/60"
+      >
+        <Modal.Container size="xl">
+          <Modal.Dialog className="rounded-xl border border-gray-800 bg-[#111625] shadow-2xl overflow-hidden max-h-[90vh] overflow-y-auto">
+            {({ close }) => (
+              <div className="flex flex-col w-full text-left">
+                <div className="p-6 border-b border-gray-800/80">
+                  <h2 className="text-xl font-bold text-white tracking-tight">
+                    Register New Company
+                  </h2>
+                  <p className="text-xs text-gray-400 mt-1">
+                    Enter your business details to start hiring on HireLoop.
+                  </p>
+                </div>
 
-      <Modal.Container size="md">
-        <Modal.Dialog className="rounded-2xl border border-gray-200 bg-white p-2 shadow-xl">
-          {/* Render function provides the close action directly */}
-          {({ close }) => (
-            <>
-              {/* Modal Header */}
-              <Modal.Header className="flex flex-col gap-1 text-xl font-bold text-gray-950 pb-2">
-                Register Company
-              </Modal.Header>
-
-              {/* Modal Body */}
-              <Modal.Body className="py-2 text-sm text-gray-500">
-                <p>
-                  Company registration form placeholder. Integrate your
-                  multi-step form inputs here later.
-                </p>
-              </Modal.Body>
-
-              {/* Modal Footer */}
-              <Modal.Footer className="pt-4 border-t border-gray-100 flex justify-end gap-2">
-                <Button
-                  color="danger"
-                  variant="flat"
-                  onPress={close}
-                  className="font-medium"
-                >
-                  Cancel
-                </Button>
-                <Button
-                  color="primary"
-                  onPress={() => {
-                    alert("Company registered successfully! (Mock)");
-                    close();
-                  }}
-                  className="font-medium shadow-sm"
-                >
-                  Submit
-                </Button>
-              </Modal.Footer>
-            </>
-          )}
-        </Modal.Dialog>
-      </Modal.Container>
+                <CompanyRegisterForm onClose={close} />
+              </div>
+            )}
+          </Modal.Dialog>
+        </Modal.Container>
+      </Modal.Backdrop>
     </Modal>
   );
 }

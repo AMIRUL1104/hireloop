@@ -38,15 +38,17 @@ const mockCompanies = [
     logo: "C",
   },
 ];
-
 export default async function CompanyDashboardPage() {
-  // Simulating server-side data load
-  const companies = mockCompanies;
+  const companies = mockCompanies; // Assumed mock data source
 
   return (
-    <div className="min-h-screen bg-gray-50/50 p-4 md:p-8">
-      <div className="max-w-7xl mx-auto">
-        {/* CompanyGrid handles the persistent header, modal state, and rendering */}
+    // Rich dark premium background with strategic blur spots for glow effect
+    <div className="min-h-screen bg-[#0B0F19] text-gray-100 p-4 md:p-8 relative overflow-hidden">
+      {/* Background Neon Glow Effects */}
+      <div className="absolute top-[-10%] left-[-10%] w-[500px] h-[500px] bg-blue-600/10 rounded-full blur-[120px] pointer-events-none" />
+      <div className="absolute bottom-[-10%] right-[-10%] w-[400px] h-[400px] bg-purple-600/10 rounded-full blur-[120px] pointer-events-none" />
+
+      <div className="max-w-7xl mx-auto relative z-10">
         <CompanyGrid initialCompanies={companies} />
       </div>
     </div>
