@@ -1,19 +1,16 @@
 "use client";
 
 import { authClient } from "@/lib/auth-client";
-import Image from "next/image";
 import { redirect } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { BiBuilding, BiCheckCircle, BiLock } from "react-icons/bi";
+import { BiCheckCircle, BiLock } from "react-icons/bi";
 import { BsEye } from "react-icons/bs";
 import { FaMailBulk, FaUser } from "react-icons/fa";
 import { FiEyeOff } from "react-icons/fi";
 
 const SignupForm = () => {
-  const [role, setRole] = useState("seeker");
   const [showPassword, setShowPassword] = useState(false);
-  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [passwordStrength, setPasswordStrength] = useState({
     score: 0,
     label: "",
@@ -26,28 +23,22 @@ const SignupForm = () => {
     register,
     handleSubmit,
     watch,
-    setError,
     clearErrors,
     formState: { errors },
-  } = useForm();
+  } = useForm({ defaultValues: { role: "seeker" } });
 
   const password = watch("password");
+  const role = watch("role");
 
   const checkStrength = (val) => {
-    if (!val) {
-      setPasswordStrength({ score: 0, label: "", color: "" });
-      return;
-    }
-
+    if (!val) return setPasswordStrength({ score: 0, label: "", color: "" });
     let score = 0;
     if (val.length >= 8) score++;
     if (/[A-Z]/.test(val)) score++;
     if (/[0-9]/.test(val)) score++;
     if (/[^a-zA-Z0-9]/.test(val)) score++;
-
     const labels = ["Weak", "Fair", "Good", "Strong"];
     const colors = ["#ef4444", "#f97316", "#eab308", "#22c55e"];
-
     setPasswordStrength({
       score,
       label: labels[Math.max(0, score - 1)],
@@ -55,188 +46,72 @@ const SignupForm = () => {
     });
   };
 
-  // const users = [
-  //   {
-  //     role: "recruiter",
-  //     company: "adobe",
-  //     companyId: "adobe-001",
-  //     name: "Adobe Recruiter",
-  //     email: "adobe.recruiter@hireloop.dev",
-  //     password: "11111111",
-  //   },
-  //   {
-  //     role: "recruiter",
-  //     company: "airbnb",
-  //     companyId: "airbnb-002",
-  //     name: "Airbnb Recruiter",
-  //     email: "airbnb.recruiter@hireloop.dev",
-  //     password: "11111111",
-  //   },
-  //   {
-  //     role: "recruiter",
-  //     company: "amazon",
-  //     companyId: "amazon-003",
-  //     name: "Amazon Recruiter",
-  //     email: "amazon.recruiter@hireloop.dev",
-  //     password: "11111111",
-  //   },
-  //   {
-  //     role: "recruiter",
-  //     company: "apple",
-  //     companyId: "apple-004",
-  //     name: "Apple Recruiter",
-  //     email: "apple.recruiter@hireloop.dev",
-  //     password: "11111111",
-  //   },
-  //   {
-  //     role: "recruiter",
-  //     company: "google",
-  //     companyId: "google-005",
-  //     name: "Google Recruiter",
-  //     email: "google.recruiter@hireloop.dev",
-  //     password: "11111111",
-  //   },
-  //   {
-  //     role: "recruiter",
-  //     company: "meta",
-  //     companyId: "meta-006",
-  //     name: "Meta Recruiter",
-  //     email: "meta.recruiter@hireloop.dev",
-  //     password: "11111111",
-  //   },
-  //   {
-  //     role: "recruiter",
-  //     company: "microsoft",
-  //     companyId: "microsoft-007",
-  //     name: "Microsoft Recruiter",
-  //     email: "microsoft.recruiter@hireloop.dev",
-  //     password: "11111111",
-  //   },
-  //   {
-  //     role: "recruiter",
-  //     company: "netflix",
-  //     companyId: "netflix-008",
-  //     name: "Netflix Recruiter",
-  //     email: "netflix.recruiter@hireloop.dev",
-  //     password: "11111111",
-  //   },
-  //   {
-  //     role: "recruiter",
-  //     company: "nvidia",
-  //     companyId: "nvidia-009",
-  //     name: "Nvidia Recruiter",
-  //     email: "nvidia.recruiter@hireloop.dev",
-  //     password: "11111111",
-  //   },
-  //   {
-  //     role: "recruiter",
-  //     company: "spotify",
-  //     companyId: "spotify-010",
-  //     name: "Spotify Recruiter",
-  //     email: "spotify.recruiter@hireloop.dev",
-  //     password: "11111111",
-  //   },
-  //   {
-  //     role: "recruiter",
-  //     company: "tesla",
-  //     companyId: "tesla-011",
-  //     name: "Tesla Recruiter",
-  //     email: "tesla.recruiter@hireloop.dev",
-  //     password: "11111111",
-  //   },
-  //   {
-  //     role: "recruiter",
-  //     company: "uber",
-  //     companyId: "uber-012",
-  //     name: "Uber Recruiter",
-  //     email: "uber.recruiter@hireloop.dev",
-  //     password: "11111111",
-  //   },
-  // ];
-
-  // let setUser = async () => {
-  //   for (const user of users) {
-  //     await authClient.signUp.email(user);
-  //   }
-  // };
-
-  // setUser();
-
   const onSubmit = async (userdata) => {
     setIsSubmitting(true);
     clearErrors();
-    setSuccess(false); // নতুন সাবমিশনের আগে আগের সাকসেস স্টেট রিসেট করা ভালো
-
-    // console.log(userdata);
-
+    setSuccess(false);
     try {
-      const { name, email, password, company } = userdata;
-
-      // ১. ব্যাকএন্ডে ডেটা পাঠানো (Real API Call)
+      const { name, email, password, role } = userdata;
       const { data, error } = await authClient.signUp.email({
-        role: role,
-        company: company,
-        companyId: crypto.randomUUID(),
-        name: name, // required
-        email: email, // required
-        password: password, // required
+        role,
+        name,
+        email,
+        password,
         callbackURL: "/",
       });
-
-      // ২. যদি ব্যাকএন্ড থেকে কোনো এরর আসে
       if (error) {
         console.error("Signup error:", error.message);
-        // এখানে তুমি চাইলে setError("apiError", { message: error.message }) সেট করতে পারো
-        return; // এরর আসলে ফাংশন এখানেই থেমে যাবে, নিচের কোড রান হবে না
+        return;
       }
-
-      // ৩. যদি সাইন-আপ সফল হয় (Success Flow)
       if (data) {
         setSuccess(true);
-        console.log("Account created successfully:", { ...userdata, role });
-
-        // ২.৫ সেকেন্ড পর সাকসেস মেসেজটি হাইড করার জন্য
         setTimeout(() => {
           setSuccess(false);
-          // রিডাইরেক্ট করতে চাইলে নিচের কমেন্টটি আনকমেন্ট করো
           redirect("/");
         }, 2500);
       }
     } catch (err) {
-      // নেটওয়ার্ক ফেইলর বা অন্য কোনো আনএক্সপেক্টেড এরর হ্যান্ডেল করার জন্য
       console.error("An unexpected error occurred:", err);
     } finally {
-      // সাকসেস হোক বা এরর—সবশেষে লোডিং স্টেট বন্ধ হবে
       setIsSubmitting(false);
     }
   };
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
-      {/* Role Selector */}
-      <div className="grid grid-cols-2 gap-2 bg-white/5 p-1.5 rounded-2xl border border-white/10 mb-8 z-80">
-        <button
-          type="button"
-          onClick={() => setRole("seeker")}
-          className={`py-3 px-4 rounded-xl font-semibold transition-all flex items-center justify-center gap-2 text-sm ${
-            role === "seeker"
-              ? "bg-linear-to-r from-blue-500 to-violet-500 text-white"
-              : "text-slate-400 hover:bg-white/5"
-          }`}
-        >
-          👤 Job Seeker
-        </button>
-        <button
-          type="button"
-          onClick={() => setRole("recruiter")}
-          className={`py-3 px-4 rounded-xl font-semibold transition-all flex items-center justify-center gap-2 text-sm ${
-            role === "recruiter"
-              ? "bg-linear-to-r from-blue-500 to-violet-500 text-white"
-              : "text-slate-400 hover:bg-white/5"
-          }`}
-        >
-          🏢 Recruiter
-        </button>
+      {/* Role Radio */}
+      <div className="mb-8">
+        <label className="block text-sm font-medium text-slate-400 mb-3">
+          I am a
+        </label>
+        <div className="grid grid-cols-2 gap-3">
+          {[
+            { value: "seeker", label: "Job Seeker", emoji: "👤" },
+            { value: "recruiter", label: "Recruiter", emoji: "🏢" },
+          ].map(({ value, label, emoji }) => (
+            <label
+              key={value}
+              className={`relative flex items-center justify-center gap-2 py-3.5 px-4 rounded-2xl border cursor-pointer transition-all text-sm font-semibold select-none
+                ${
+                  role === value
+                    ? "bg-linear-to-r from-blue-500/20 to-violet-500/20 border-violet-500/60 text-white"
+                    : "bg-white/5 border-white/10 text-slate-400 hover:bg-white/8 hover:border-white/20"
+                }`}
+            >
+              <input
+                type="radio"
+                value={value}
+                {...register("role", { required: true })}
+                className="sr-only"
+              />
+              <span>{emoji}</span>
+              <span>{label}</span>
+              {role === value && (
+                <span className="absolute top-2 right-2 w-2 h-2 rounded-full bg-violet-400" />
+              )}
+            </label>
+          ))}
+        </div>
       </div>
 
       {/* Full Name */}
@@ -290,32 +165,6 @@ const SignupForm = () => {
         )}
       </div>
 
-      {/* Company Name - Recruiter Only */}
-      {role === "recruiter" && (
-        <div>
-          <label className="block text-sm font-medium text-slate-400 mb-2">
-            Company Name
-          </label>
-          <div className="relative">
-            <BiBuilding
-              className="absolute left-4 top-3.5 text-slate-500"
-              size={20}
-            />
-            <input
-              {...register("company", { required: true })}
-              type="text"
-              placeholder="Acme Corp."
-              className="w-full bg-white/5 border border-white/10 rounded-2xl pl-12 py-3.5 text-slate-100 placeholder:text-slate-500 focus:border-violet-500 focus:bg-white/10 transition-all outline-none"
-            />
-          </div>
-          {errors.company && (
-            <p className="text-red-400 text-xs mt-1">
-              Company name is required
-            </p>
-          )}
-        </div>
-      )}
-
       {/* Password */}
       <div>
         <label className="block text-sm font-medium text-slate-400 mb-2">
@@ -341,7 +190,6 @@ const SignupForm = () => {
             {showPassword ? <FiEyeOff size={20} /> : <BsEye size={20} />}
           </button>
         </div>
-
         {password && (
           <div className="mt-3">
             <div className="flex gap-1.5 mb-2">
@@ -365,42 +213,7 @@ const SignupForm = () => {
         )}
       </div>
 
-      {/* Confirm Password */}
-      <div>
-        <label className="block text-sm font-medium text-slate-400 mb-2">
-          Confirm Password
-        </label>
-        <div className="relative">
-          <BiLock
-            className="absolute left-4 top-3.5 text-slate-500"
-            size={20}
-          />
-          <input
-            {...register("confirmPassword", {
-              required: true,
-              validate: (value) =>
-                value === password || "Passwords do not match",
-            })}
-            type={showConfirmPassword ? "text" : "password"}
-            placeholder="••••••••"
-            className="w-full bg-white/5 border border-white/10 rounded-2xl pl-12 pr-12 py-3.5 text-slate-100 placeholder:text-slate-500 focus:border-violet-500 focus:bg-white/10 transition-all outline-none"
-          />
-          <button
-            type="button"
-            onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-            className="absolute right-4 top-3.5 text-slate-500 hover:text-slate-300"
-          >
-            {showConfirmPassword ? <FiEyeOff size={20} /> : <BsEye size={20} />}
-          </button>
-        </div>
-        {errors.confirmPassword && (
-          <p className="text-red-400 text-xs mt-1">
-            {errors.confirmPassword.message}
-          </p>
-        )}
-      </div>
-
-      {/* Terms Checkbox */}
+      {/* Terms */}
       <div className="flex items-start gap-3">
         <input
           type="checkbox"
@@ -422,7 +235,7 @@ const SignupForm = () => {
         <p className="text-red-400 text-xs">You must accept the terms</p>
       )}
 
-      {/* Submit Button */}
+      {/* Submit */}
       <button
         type="submit"
         disabled={isSubmitting}
@@ -431,7 +244,7 @@ const SignupForm = () => {
         {isSubmitting ? "Creating Account..." : "Create Account"}
       </button>
 
-      {/* Success Message */}
+      {/* Success */}
       {success && (
         <div className="p-4 bg-emerald-500/10 border border-emerald-500/30 rounded-2xl text-emerald-400 text-center flex items-center justify-center gap-2">
           <BiCheckCircle size={20} />
@@ -439,38 +252,34 @@ const SignupForm = () => {
         </div>
       )}
 
-      {/* Social Login Divider */}
+      {/* Divider */}
       <div className="flex items-center gap-4 my-8">
         <div className="h-px flex-1 bg-white/10" />
         <span className="text-xs text-slate-500">Or continue with</span>
         <div className="h-px flex-1 bg-white/10" />
       </div>
 
-      {/* Social Buttons */}
+      {/* Social */}
       <div className="grid grid-cols-2 gap-3">
         <button
           type="button"
-          className="flex items-center justify-center gap-3 py-3.5 border border-white/10 hover:bg-white/5 rounded-2xl transition-all"
+          className="flex items-center justify-center gap-3 py-3.5 border border-white/10 hover:bg-white/5 rounded-2xl transition-all text-slate-300 text-sm"
         >
-          <Image
+          <img
             src="https://www.google.com/favicon.ico"
             alt="Google"
             className="w-5 h-5"
-            width={20}
-            height={20}
           />
           Google
         </button>
         <button
           type="button"
-          className="flex items-center justify-center gap-3 py-3.5 border border-white/10 hover:bg-white/5 rounded-2xl transition-all"
+          className="flex items-center justify-center gap-3 py-3.5 border border-white/10 hover:bg-white/5 rounded-2xl transition-all text-slate-300 text-sm"
         >
-          <Image
+          <img
             src="https://www.linkedin.com/favicon.ico"
             alt="LinkedIn"
             className="w-5 h-5"
-            width={20}
-            height={20}
           />
           LinkedIn
         </button>

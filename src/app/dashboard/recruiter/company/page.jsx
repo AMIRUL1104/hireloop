@@ -2,6 +2,7 @@
 
 import CompanyGrid from "@/components/Dashboard/reqruiter/Company/CompanyGrid";
 import getUserSession from "@/lib/core/session";
+import { getReqruiterCompanies } from "@/lib/Server/api/myCompanies";
 
 // Mock Data Source
 const mockCompanies = [
@@ -43,8 +44,9 @@ export default async function CompanyDashboardPage() {
   const companies = mockCompanies; // Assumed mock data source
 
   const user = await getUserSession();
-  const userId = user.id;
-  console.log(user);
+  const reqruiterId = user.id;
+  const reqruiterCompanies = await getReqruiterCompanies(reqruiterId);
+  // console.log(user);
 
   return (
     // Rich dark premium background with strategic blur spots for glow effect
@@ -54,7 +56,10 @@ export default async function CompanyDashboardPage() {
       <div className="absolute bottom-[-10%] right-[-10%] w-[400px] h-[400px] bg-purple-600/10 rounded-full blur-[120px] pointer-events-none" />
 
       <div className="max-w-7xl mx-auto relative z-10">
-        <CompanyGrid initialCompanies={companies} userId={userId} />
+        <CompanyGrid
+          initialCompanies={reqruiterCompanies}
+          reqruiterId={reqruiterId}
+        />
       </div>
     </div>
   );

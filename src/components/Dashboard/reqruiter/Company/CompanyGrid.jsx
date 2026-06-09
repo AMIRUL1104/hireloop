@@ -8,7 +8,7 @@ import EmptyCompanyState from "./EmptyCompanyState";
 import CompanyCard from "./CompanyCard";
 import RegisterCompanyModal from "./RegisterCompanyModal";
 
-export default function CompanyGrid({ initialCompanies = [], userId }) {
+export default function CompanyGrid({ initialCompanies = [], reqruiterId }) {
   const modalState = useOverlayState({ defaultOpen: false });
   const [companies] = React.useState(initialCompanies);
 
@@ -41,7 +41,7 @@ export default function CompanyGrid({ initialCompanies = [], userId }) {
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {companies.map((company) => (
-            <CompanyCard key={company.id} company={company} />
+            <CompanyCard key={company._id} company={company} />
           ))}
         </div>
       )}
@@ -49,7 +49,7 @@ export default function CompanyGrid({ initialCompanies = [], userId }) {
       <RegisterCompanyModal
         isOpen={modalState.isOpen}
         onOpenChange={(open) => modalState.setOpen(open)}
-        userId={userId}
+        userId={reqruiterId}
       />
     </div>
   );

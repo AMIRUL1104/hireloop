@@ -9,7 +9,7 @@ import Image from "next/image";
 import { AddCompany } from "@/lib/Server/actions/company";
 import { toast } from "react-toastify";
 
-export default function CompanyRegisterForm({ onClose ,userId}) {
+export default function CompanyRegisterForm({ onClose, userId }) {
   const [isLoading, setIsLoading] = useState(false);
   const [imagePreview, setImagePreview] = useState(null);
   const [selectedFile, setSelectedFile] = useState(null);
@@ -66,7 +66,7 @@ export default function CompanyRegisterForm({ onClose ,userId}) {
         }
       }
 
-      const finalPayload = { ...data, logo: logoUrl,userId:userId };
+      const finalPayload = { ...data, logo: logoUrl, reqruiterId: userId };
       console.log("Final Payload:", finalPayload);
 
       // await axios.post('/api/company', finalPayload)
