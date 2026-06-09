@@ -4,7 +4,7 @@ import React from "react";
 import { Modal } from "@heroui/react";
 import CompanyRegisterForm from "./CompanyRegisterForm";
 
-export default function RegisterCompanyModal({ isOpen, onOpenChange }) {
+export default function RegisterCompanyModal({ isOpen, onOpenChange, userId }) {
   return (
     <Modal>
       <Modal.Backdrop
@@ -26,7 +26,7 @@ export default function RegisterCompanyModal({ isOpen, onOpenChange }) {
                   </p>
                 </div>
 
-                <CompanyRegisterForm onClose={close} />
+                <CompanyRegisterForm onClose={close} userId={userId} />
               </div>
             )}
           </Modal.Dialog>

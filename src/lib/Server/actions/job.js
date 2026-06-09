@@ -3,7 +3,7 @@
 const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
 
 export async function AddJobPost(formData) {
-  console.log(formData);
+  // console.log(formData);
 
   try {
     const response = await fetch(`${baseUrl}/api/jobs`, {
