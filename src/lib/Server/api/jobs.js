@@ -18,3 +18,8 @@ export async function getAllJObs() {
   const response = await fetch(`${baseUrl}/api/jobs`);
   return await response.json();
 }
+
+export async function getJobsById(id) {
+  const response = await fetch(`${baseUrl}/api/jobs/${id}`);
+  return await response.json();
+}
