@@ -32,7 +32,7 @@ async function Navbar() {
           {/* route links */}
           <ul className="hidden items-center gap-4 md:flex">
             <li>
-              <Link href="/jobs" className="block py-2">
+              <Link href="/browse-jobs" className="block py-2">
                 Browse Jobs
               </Link>
             </li>

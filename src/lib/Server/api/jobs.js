@@ -13,3 +13,8 @@ export async function getReqruiterPostedJObs(recruiterId, status = "active") {
   return await response.json();
 }
 // http://localhost:4000/api/jobs?recruiterId=6a283c84c45eddac77ea81e2&status=active
+
+export async function getAllJObs() {
+  const response = await fetch(`${baseUrl}/api/jobs`);
+  return await response.json();
+}
