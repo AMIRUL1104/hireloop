@@ -1,11 +1,15 @@
 import JobPostForm from "@/components/Jobpost/JobPostForm";
 import { auth } from "@/lib/auth";
+import { getReqruiterCompanies } from "@/lib/Server/api/myCompanies";
 import { headers } from "next/headers";
 
 // ── Server Component ──────────────────────────────────────────────────────────
 export default async function JobPostPage() {
   const sessionData = await auth.api.getSession({ headers: await headers() });
   const { user } = sessionData || {};
+  const reqruiterId = user.id;
+  const reqruiterCompanies = await getReqruiterCompanies(reqruiterId);
+  // console.log(reqruiterCompanies);
 
   return (
     <div className="min-h-screen px-4 py-6 md:px-8 md:py-8 space-y-6">
@@ -42,7 +46,7 @@ export default async function JobPostPage() {
       <div className="h-px bg-gradient-to-r from-blue-600/30 via-purple-600/20 to-transparent" />
 
       {/* Form (Client Component) */}
-      <JobPostForm recruiter={user} />
+      <JobPostForm recruiter={user} reqruiterCompanies={reqruiterCompanies} />
     </div>
   );
 }

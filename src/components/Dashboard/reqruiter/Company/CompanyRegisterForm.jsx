@@ -66,7 +66,7 @@ export default function CompanyRegisterForm({ onClose, userId }) {
         }
       }
 
-      const finalPayload = { ...data, logo: logoUrl, reqruiterId: userId };
+      const finalPayload = { ...data, logo: logoUrl, recruiterId: userId };
       console.log("Final Payload:", finalPayload);
 
       // await axios.post('/api/company', finalPayload)

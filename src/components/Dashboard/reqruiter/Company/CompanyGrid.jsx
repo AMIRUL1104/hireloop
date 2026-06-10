@@ -8,7 +8,7 @@ import EmptyCompanyState from "./EmptyCompanyState";
 import CompanyCard from "./CompanyCard";
 import RegisterCompanyModal from "./RegisterCompanyModal";
 
-export default function CompanyGrid({ initialCompanies = [], reqruiterId }) {
+export default function CompanyGrid({ initialCompanies = [], recruiterId }) {
   const modalState = useOverlayState({ defaultOpen: false });
   const [companies] = React.useState(initialCompanies);
 
@@ -49,7 +49,7 @@ export default function CompanyGrid({ initialCompanies = [], reqruiterId }) {
       <RegisterCompanyModal
         isOpen={modalState.isOpen}
         onOpenChange={(open) => modalState.setOpen(open)}
-        userId={reqruiterId}
+        userId={recruiterId}
       />
     </div>
   );

@@ -44,8 +44,8 @@ export default async function CompanyDashboardPage() {
   const companies = mockCompanies; // Assumed mock data source
 
   const user = await getUserSession();
-  const reqruiterId = user.id;
-  const reqruiterCompanies = await getReqruiterCompanies(reqruiterId);
+  const recruiterId = user.id;
+  const reqruiterCompanies = await getReqruiterCompanies(recruiterId);
   // console.log(user);
 
   return (
@@ -58,7 +58,7 @@ export default async function CompanyDashboardPage() {
       <div className="max-w-7xl mx-auto relative z-10">
         <CompanyGrid
           initialCompanies={reqruiterCompanies}
-          reqruiterId={reqruiterId}
+          recruiterId={recruiterId}
         />
       </div>
     </div>

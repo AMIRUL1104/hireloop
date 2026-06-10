@@ -27,9 +27,8 @@ import { FaBuilding } from "react-icons/fa";
 import SubmitButton from "./PostSubmit";
 import { toast } from "react-toastify";
 import { AddJobPost } from "@/lib/Server/actions/job";
-import { redirect } from "next/navigation";
+import Image from "next/image";
 
-// ── Static options ─────────────────────────────────────────────────────────────
 const JOB_CATEGORIES = [
   "Engineering",
   "Design",
@@ -51,8 +50,7 @@ const JOB_TYPES = [
 ];
 const CURRENCIES = ["USD", "EUR", "GBP", "BDT", "AED", "SGD", "CAD", "AUD"];
 
-// ── Main Form ─────────────────────────────────────────────────────────────────
-export default function JobPostForm({ recruiter }) {
+export default function JobPostForm({ recruiter, reqruiterCompanies = [] }) {
   const [isRemote, setIsRemote] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -77,55 +75,47 @@ export default function JobPostForm({ recruiter }) {
       responsibilities: "",
       requirements: "",
       benefits: "",
+      companyId: "",
+      companyName: "",
+      companyLogo: "",
     },
   });
 
   const onSubmit = async (data) => {
-    // সাবমিশন শুরু হওয়ার সাথে সাথে স্টেট আপডেট
     setIsSubmitting(true);
-
-    const companyId = await recruiter?.companyId;
-    // console.log(companyId);
-
     try {
-      // ডাটা পেলোড তৈরি
+      // selected company টা find করে নাও
+      const selectedCompany = reqruiterCompanies.find(
+        (c) => c._id === data.companyId,
+      );
+
       const jobPayload = {
         ...data,
         isRemote,
-        companyId: companyId, // দ্রষ্টব্য: ব্যাকএন্ডে আইডি জেনারেট করা বেশি নিরাপদ
+        companyId: selectedCompany?._id,
+        companyName: selectedCompany?.name,
+        companyLogo: selectedCompany?.logo,
         status: "active",
         isPubliclyVisible: true,
-        createdAt: new Date().toISOString(), // প্রোডাকশন কোডে টাইমস্ট্যাম্প রাখা ভালো
+        recruiterId: recruiter.id,
+        createdAt: new Date().toISOString(),
       };
 
-      // console.log(jobPayload);
-
-      // API বা ডাটাবেজ অপারেশন
       const result = await AddJobPost(jobPayload);
-      // console.log(result);
-
-      // রেসপন্স চেক এবং সাকসেস হ্যান্ডলিং
       if (result?.insertedId) {
         toast.success("Job post created successfully!");
         setIsSuccess(true);
-
-        // এখানে চাইলে ফর্ম রিসেট (e.g., reset()) কল করতে পারেন
       } else {
-        // যদি API কোনো এরর না দিয়েও ব্যর্থ হয়
         throw new Error("Failed to insert job post");
       }
     } catch (error) {
-      // এরর হ্যান্ডলিং এবং ইউজারকে নোটিফিকেশন
       console.error("Error creating job post:", error);
       toast.error(error?.message || "Something went wrong. Please try again.");
-      setIsSuccess(false);
     } finally {
-      // সাকসেস বা এরর যাই হোক, সাবমিটিং স্টেট অবশ্যই ফলস হবে
       setIsSubmitting(false);
     }
   };
 
-  // ── Success screen ──────────────────────────────────────────────────────────
   if (isSuccess) {
     return (
       <div className="flex flex-col items-center justify-center py-20 text-center space-y-5">
@@ -155,15 +145,12 @@ export default function JobPostForm({ recruiter }) {
     );
   }
 
-  // ── Form ───────────────────────────────────────────────────────────────────
   return (
     <form onSubmit={handleSubmit(onSubmit)} noValidate>
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 items-start">
         {/* ── Left Column ─────────────────────────────────────────────────── */}
         <div className="lg:col-span-2 space-y-5">
-          {/* Section: Job Info */}
           <FormSection title="Job Information" icon={<FiBriefcase />}>
-            {/* Job Title — TextField wraps Input for label + validation */}
             <TextField
               isRequired
               isInvalid={!!errors.jobTitle}
@@ -178,9 +165,7 @@ export default function JobPostForm({ recruiter }) {
               <FieldError>{errors.jobTitle?.message}</FieldError>
             </TextField>
 
-            {/* Category + Job Type */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              {/* Category Select */}
               <Controller
                 name="category"
                 control={control}
@@ -218,7 +203,6 @@ export default function JobPostForm({ recruiter }) {
                 )}
               />
 
-              {/* Job Type Select */}
               <Controller
                 name="jobType"
                 control={control}
@@ -258,9 +242,7 @@ export default function JobPostForm({ recruiter }) {
             </div>
           </FormSection>
 
-          {/* Section: Job Description */}
           <FormSection title="Job Description" icon={<FiFileText />}>
-            {/* Responsibilities */}
             <TextField
               isRequired
               isInvalid={!!errors.responsibilities}
@@ -279,7 +261,6 @@ export default function JobPostForm({ recruiter }) {
               <FieldError>{errors.responsibilities?.message}</FieldError>
             </TextField>
 
-            {/* Requirements */}
             <TextField
               isRequired
               isInvalid={!!errors.requirements}
@@ -298,7 +279,6 @@ export default function JobPostForm({ recruiter }) {
               <FieldError>{errors.requirements?.message}</FieldError>
             </TextField>
 
-            {/* Benefits (optional) */}
             <TextField className="w-full">
               <Label>
                 Benefits{" "}
@@ -317,11 +297,9 @@ export default function JobPostForm({ recruiter }) {
           </FormSection>
         </div>
 
-        {/* ── Right Column (sidebar) ──────────────────────────────────────── */}
+        {/* ── Right Column ────────────────────────────────────────────────── */}
         <div className="space-y-5">
-          {/* Section: Compensation */}
           <FormSection title="Compensation" icon={<FiDollarSign />}>
-            {/* Currency Select */}
             <Controller
               name="currency"
               control={control}
@@ -349,7 +327,6 @@ export default function JobPostForm({ recruiter }) {
               )}
             />
 
-            {/* Salary Min + Max */}
             <div className="grid grid-cols-2 gap-3">
               <TextField isRequired isInvalid={!!errors.salaryMin}>
                 <Label>Min</Label>
@@ -379,9 +356,7 @@ export default function JobPostForm({ recruiter }) {
             </div>
           </FormSection>
 
-          {/* Section: Location */}
           <FormSection title="Location" icon={<FiMapPin />}>
-            {/* Remote toggle */}
             <div className="flex items-center justify-between py-0.5">
               <div>
                 <p className="text-sm font-medium text-gray-700 dark:text-gray-300">
@@ -398,7 +373,6 @@ export default function JobPostForm({ recruiter }) {
               />
             </div>
 
-            {/* City + Country — hidden when remote */}
             {!isRemote && (
               <div className="space-y-3">
                 <TextField isInvalid={!!errors.city} className="w-full">
@@ -428,7 +402,6 @@ export default function JobPostForm({ recruiter }) {
             )}
           </FormSection>
 
-          {/* Section: Deadline */}
           <FormSection title="Application Deadline" icon={<FiCalendar />}>
             <TextField
               isRequired
@@ -449,24 +422,113 @@ export default function JobPostForm({ recruiter }) {
             </TextField>
           </FormSection>
 
-          {/* Section: Company (read-only) */}
+          {/* ── Company Dropdown ─────────────────────────────────────────── */}
           <FormSection title="Company" icon={<FaBuilding />}>
-            <div className="flex items-center gap-3 px-3 py-2.5 rounded-xl bg-gray-100 dark:bg-gray-800/60 border border-gray-200 dark:border-gray-700/50">
-              <div className="w-9 h-9 rounded-lg bg-linear-to-br from-blue-600 to-purple-600 flex items-center justify-center text-white text-sm font-bold shrink-0">
-                {recruiter?.name?.[0]?.toUpperCase() ?? "C"}
-              </div>
-              <div className="min-w-0">
-                <p className="text-sm font-semibold text-gray-900 dark:text-white truncate">
-                  {recruiter?.name ?? "Your Company"}
-                </p>
-                <p className="text-xs text-gray-500 dark:text-gray-400">
-                  Auto-linked to your account
-                </p>
-              </div>
-            </div>
+            <Controller
+              name="companyId"
+              control={control}
+              rules={{ required: "Please select a company" }}
+              render={({ field }) => {
+                const selected = reqruiterCompanies.find(
+                  (c) => c._id === field.value,
+                );
+
+                return (
+                  <div className="flex flex-col gap-1">
+                    <Select
+                      placeholder="Select your company"
+                      isInvalid={!!errors.companyId}
+                      value={field.value || null}
+                      onChange={(selectedId) => {
+                        const company = reqruiterCompanies.find(
+                          (c) => c._id === selectedId,
+                        );
+                        field.onChange(selectedId);
+                        // hidden fields এ company info সেট করা হচ্ছে না,
+                        // বরং onSubmit এ find করে নেওয়া হবে
+                      }}
+                      fullWidth
+                    >
+                      <Label>Select Company</Label>
+                      <Select.Trigger>
+                        <Select.Value />
+                        <Select.Indicator />
+                      </Select.Trigger>
+                      <Select.Popover>
+                        <ListBox>
+                          {reqruiterCompanies.map((company) => (
+                            <ListBox.Item
+                              key={company._id}
+                              id={company._id}
+                              textValue={company.name}
+                            >
+                              <div className="flex items-center gap-2.5 py-0.5">
+                                {company.logo ? (
+                                  <Image
+                                    src={company.logo}
+                                    alt={company.name}
+                                    width={28}
+                                    height={28}
+                                    className="rounded-md object-cover border border-gray-200 dark:border-gray-700 shrink-0"
+                                  />
+                                ) : (
+                                  <div className="w-7 h-7 rounded-md bg-linear-to-br from-blue-600 to-purple-600 flex items-center justify-center text-white text-xs font-bold shrink-0">
+                                    {company.name?.[0]?.toUpperCase()}
+                                  </div>
+                                )}
+                                <div className="min-w-0">
+                                  <p className="text-sm font-medium text-gray-900 dark:text-white truncate">
+                                    {company.name}
+                                  </p>
+                                  <p className="text-xs text-gray-500 dark:text-gray-400 truncate">
+                                    {company.industry}
+                                  </p>
+                                </div>
+                              </div>
+                            </ListBox.Item>
+                          ))}
+                        </ListBox>
+                      </Select.Popover>
+                    </Select>
+
+                    {errors.companyId && (
+                      <p className="text-xs text-red-500">
+                        {errors.companyId.message}
+                      </p>
+                    )}
+
+                    {/* Selected company preview */}
+                    {selected && (
+                      <div className="flex items-center gap-3 px-3 py-2.5 mt-1 rounded-xl bg-gray-100 dark:bg-gray-800/60 border border-gray-200 dark:border-gray-700/50">
+                        {selected.logo ? (
+                          <Image
+                            src={selected.logo}
+                            alt={selected.name}
+                            width={36}
+                            height={36}
+                            className="rounded-lg object-cover border border-gray-200 dark:border-gray-700 shrink-0"
+                          />
+                        ) : (
+                          <div className="w-9 h-9 rounded-lg bg-linear-to-br from-blue-600 to-purple-600 flex items-center justify-center text-white text-sm font-bold shrink-0">
+                            {selected.name?.[0]?.toUpperCase()}
+                          </div>
+                        )}
+                        <div className="min-w-0">
+                          <p className="text-sm font-semibold text-gray-900 dark:text-white truncate">
+                            {selected.name}
+                          </p>
+                          <p className="text-xs text-gray-500 dark:text-gray-400 truncate">
+                            {selected.location}
+                          </p>
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                );
+              }}
+            />
           </FormSection>
 
-          {/* Submit */}
           <SubmitButton isLoading={isSubmitting} />
         </div>
       </div>
@@ -474,7 +536,6 @@ export default function JobPostForm({ recruiter }) {
   );
 }
 
-// ── Reusable Section Card ──────────────────────────────────────────────────────
 function FormSection({ title, icon, children }) {
   return (
     <Card className="bg-white/80 dark:bg-gray-900/60 backdrop-blur-md border border-gray-200/80 dark:border-gray-700/50">
