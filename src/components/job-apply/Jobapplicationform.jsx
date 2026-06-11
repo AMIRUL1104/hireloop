@@ -17,6 +17,7 @@ import ApplicationChecklist from "./Applicationchecklist";
 import SubmitApplicationButton from "./Submitapplicationbutton";
 import SaveDraftButton from "./Savedraftbutton";
 import CancelButton from "./Cancelbutton";
+import { JobApplication } from "@/lib/Server/actions/jobapply";
 
 // Reusable form field wrapper
 const Field = ({ label, required, error, children }) => (
@@ -51,7 +52,7 @@ const JobApplicationForm = ({ job, userId }) => {
   const [resumeFile, setResumeFile] = useState(null);
   const [submitted, setSubmitted] = useState(false);
   const fileInputRef = useRef(null);
-  console.log(userId);
+  // console.log(userId);
 
   const {
     register,
@@ -86,23 +87,30 @@ const JobApplicationForm = ({ job, userId }) => {
     if (fileInputRef.current) fileInputRef.current.value = "";
   };
 
-  // Simulate submission — replace with real API call
   const onSubmit = async (data) => {
     if (!resumeFile) {
       alert("Please attach your resume before submitting.");
       return;
     }
-    // Simulated delay
-    await new Promise((resolve) => setTimeout(resolve, 1500));
-    console.log("Application submitted:", {
-      ...data,
-      resume: resumeFile.name,
-      jobId: job._id,
-      userId,
-    });
-    setSubmitted(true);
-  };
 
+    try {
+      const applicantData = {
+        ...data,
+        resume: resumeFile.name,
+        jobId: job._id,
+        applicantId: userId,
+      };
+
+      // API কল করার সময় await ব্যবহার করা ভালো যেন রেসপন্স সফল হলে তবেই পরবর্তী লাইনে যায়
+      const result = await JobApplication(applicantData);
+      if (result.insertedId) {
+        setSubmitted(true);
+      }
+    } catch (error) {
+      console.error("Submission error:", error);
+      alert("Something went wrong. Please try again.");
+    }
+  };
   // Success screen after submission
   if (submitted) {
     return (
