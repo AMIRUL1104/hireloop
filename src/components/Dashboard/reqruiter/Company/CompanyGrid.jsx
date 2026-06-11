@@ -17,7 +17,7 @@ export default function CompanyGrid({ initialCompanies = [], recruiterId }) {
       {/* Premium Dark Page Header */}
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 border-b border-gray-800 pb-6">
         <div>
-          <h1 className="text-2xl font-bold text-white tracking-tight bg-gradient-to-r from-white to-gray-400 bg-clip-text text-transparent">
+          <h1 className="text-2xl font-bold text-white tracking-tight bg-linear-to-r from-white to-gray-400 bg-clip-text text-transparent">
             Company Dashboard
           </h1>
           <p className="text-sm text-gray-400 mt-1">
@@ -28,7 +28,7 @@ export default function CompanyGrid({ initialCompanies = [], recruiterId }) {
         {/* Brand Theme Action Button */}
         <Button
           onPress={() => modalState.open()}
-          className="font-semibold bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white shadow-[0_4px_20px_rgba(37,99,235,0.3)] px-6 transition-all duration-200"
+          className="font-semibold bg-linear-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white shadow-[0_4px_20px_rgba(37,99,235,0.3)] px-6 transition-all duration-200"
           endContent={<FiPlus className="text-lg" />}
         >
           Register Company

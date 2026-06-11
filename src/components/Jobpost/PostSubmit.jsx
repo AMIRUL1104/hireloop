@@ -11,7 +11,7 @@ export default function SubmitButton({ isLoading }) {
       size="lg"
       className="
         w-full font-semibold text-white
-        bg-gradient-to-r from-blue-600 to-purple-600
+        bg-linear-to-r from-blue-600 to-purple-600
         hover:opacity-90 transition-opacity duration-200
       "
       startContent={!isLoading && <FiSend size={16} />}

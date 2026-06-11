@@ -22,7 +22,7 @@ export default function MobileHeaderClient({ user }) {
   // ১. সাধারণ পাবলিক লিংকস
   const navLinks = [
     { label: "Home", href: "/", icon: House },
-    { label: "Browse Jobs", href: "/jobs", icon: Briefcase },
+    { label: "Browse Jobs", href: "/browse-jobs", icon: Briefcase },
     { label: "Company", href: "/company", icon: Building2 },
     { label: "Pricing", href: "/pricing", icon: CreditCard },
   ];
@@ -63,7 +63,7 @@ export default function MobileHeaderClient({ user }) {
             <span
               className={`text-sm font-medium tracking-wide transition-colors duration-200 ${
                 isActive
-                  ? "bg-gradient-to-r from-blue-400 to-indigo-400 bg-clip-text text-transparent font-semibold"
+                  ? "bg-linear-to-r from-blue-400 to-indigo-400 bg-clip-text text-transparent font-semibold"
                   : "text-gray-400 group-hover:text-gray-200"
               }`}
             >
@@ -79,7 +79,7 @@ export default function MobileHeaderClient({ user }) {
     <header className="md:hidden w-full h-16 flex items-center px-5 justify-between bg-[#0E121F] border-b border-gray-800/60 sticky top-0 z-50 backdrop-blur-md bg-opacity-95">
       {/* 🚀 Brand Logo */}
       <Link href="/" className="flex items-center gap-2.5">
-        <div className="w-8 h-8 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-lg flex items-center justify-center shadow-[0_2px_10px_rgba(37,99,235,0.3)]">
+        <div className="w-8 h-8 bg-linear-to-r from-blue-600 to-indigo-600 rounded-lg flex items-center justify-center shadow-[0_2px_10px_rgba(37,99,235,0.3)]">
           <span className="text-white font-extrabold text-sm tracking-tighter">
             HL
           </span>
@@ -147,7 +147,7 @@ export default function MobileHeaderClient({ user }) {
                     </Link>
 
                     <Link href="/Getstart" className="w-full">
-                      <Button className="w-full bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white font-semibold h-11 rounded-xl shadow-[0_4px_15px_rgba(37,99,235,0.2)] transition-all">
+                      <Button className="w-full bg-linear-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white font-semibold h-11 rounded-xl shadow-[0_4px_15px_rgba(37,99,235,0.2)] transition-all">
                         Get Started
                       </Button>
                     </Link>

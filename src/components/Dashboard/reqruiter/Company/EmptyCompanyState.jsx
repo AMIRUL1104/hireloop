@@ -20,7 +20,7 @@ export default function EmptyCompanyState({ onRegisterClick }) {
 
       <Button
         onPress={onRegisterClick}
-        className="font-medium bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white shadow-lg px-6"
+        className="font-medium bg-linear-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white shadow-lg px-6"
         endContent={<FiPlus />}
       >
         Register Company

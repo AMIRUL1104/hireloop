@@ -43,7 +43,7 @@ export default async function JobPostPage() {
       </div>
 
       {/* Gradient divider */}
-      <div className="h-px bg-gradient-to-r from-blue-600/30 via-purple-600/20 to-transparent" />
+      <div className="h-px bg-linear-to-r from-blue-600/30 via-purple-600/20 to-transparent" />
 
       {/* Form (Client Component) */}
       <JobPostForm recruiter={user} reqruiterCompanies={reqruiterCompanies} />

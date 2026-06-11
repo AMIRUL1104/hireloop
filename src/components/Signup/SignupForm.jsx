@@ -1,7 +1,7 @@
 "use client";
 
 import { authClient } from "@/lib/auth-client";
-import { redirect } from "next/navigation";
+import { redirect, useRouter, useSearchParams } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { BiCheckCircle, BiLock } from "react-icons/bi";
@@ -18,6 +18,10 @@ const SignupForm = () => {
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [success, setSuccess] = useState(false);
+
+  const searchParams = useSearchParams();
+  const router = useRouter();
+  const redirectTo = searchParams.get("redirect") || "/";
 
   const {
     register,
@@ -57,7 +61,6 @@ const SignupForm = () => {
         name,
         email,
         password,
-        callbackURL: "/",
       });
       if (error) {
         console.error("Signup error:", error.message);
@@ -67,7 +70,7 @@ const SignupForm = () => {
         setSuccess(true);
         setTimeout(() => {
           setSuccess(false);
-          redirect("/");
+          router.push(redirectTo);
         }, 2500);
       }
     } catch (err) {

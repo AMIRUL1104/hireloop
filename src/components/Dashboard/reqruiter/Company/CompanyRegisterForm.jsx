@@ -225,7 +225,7 @@ export default function CompanyRegisterForm({ onClose, userId }) {
               className="flex items-center gap-3 bg-[#161D30] border border-dashed border-gray-800 rounded-lg p-2.5 hover:border-gray-600 transition-all cursor-pointer select-none"
             >
               {/* ✅ fill prop-এর জন্য relative + নির্দিষ্ট size দেওয়া হয়েছে */}
-              <div className="relative w-10 h-10 bg-gray-900 rounded-lg flex items-center justify-center text-gray-400 border border-gray-800 overflow-hidden flex-shrink-0">
+              <div className="relative w-10 h-10 bg-gray-900 rounded-lg flex items-center justify-center text-gray-400 border border-gray-800 overflow-hidden shrink-0">
                 {imagePreview ? (
                   <Image
                     fill
@@ -292,7 +292,7 @@ export default function CompanyRegisterForm({ onClose, userId }) {
         <Button
           type="submit"
           isLoading={isLoading}
-          className="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white font-semibold px-6 h-9 rounded-lg shadow-[0_4px_15px_rgba(37,99,235,0.25)] transition-all"
+          className="bg-linear-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white font-semibold px-6 h-9 rounded-lg shadow-[0_4px_15px_rgba(37,99,235,0.25)] transition-all"
         >
           Register Company
         </Button>

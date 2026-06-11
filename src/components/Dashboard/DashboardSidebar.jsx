@@ -69,7 +69,7 @@ export function DashboardSidebar() {
             <span
               className={`text-sm font-medium tracking-wide transition-colors duration-200 ${
                 isActive
-                  ? "bg-gradient-to-r from-blue-400 to-indigo-400 bg-clip-text text-transparent font-semibold"
+                  ? "bg-linear-to-r from-blue-400 to-indigo-400 bg-clip-text text-transparent font-semibold"
                   : "text-gray-400 group-hover:text-gray-200"
               }`}
             >
@@ -87,7 +87,7 @@ export function DashboardSidebar() {
       <aside className="hidden w-64 shrink-0 border-r border-gray-800/80 md:block px-4 py-6 bg-[#0E121F] h-screen sticky top-0">
         {/* Logo/Brand Header */}
         <div className="px-4 pb-6 mb-4 border-b border-gray-800/50">
-          <span className="text-xl font-bold tracking-wider bg-gradient-to-r from-white via-gray-200 to-gray-500 bg-clip-text text-transparent">
+          <span className="text-xl font-bold tracking-wider bg-linear-to-r from-white via-gray-200 to-gray-500 bg-clip-text text-transparent">
             HIRE<span className="text-blue-500">LOOP</span>
           </span>
         </div>

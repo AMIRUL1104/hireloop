@@ -25,7 +25,7 @@ const NotFound = () => {
         {/* Back to Home Button */}
         <Link
           href="/"
-          className="inline-flex items-center gap-3 bg-gradient-to-r from-blue-500 to-violet-600 hover:from-blue-600 hover:to-violet-700 text-white font-semibold px-8 py-4 rounded-2xl transition-all hover:scale-105 active:scale-95 shadow-lg shadow-violet-500/30"
+          className="inline-flex items-center gap-3 bg-linear-to-r from-blue-500 to-violet-600 hover:from-blue-600 hover:to-violet-700 text-white font-semibold px-8 py-4 rounded-2xl transition-all hover:scale-105 active:scale-95 shadow-lg shadow-violet-500/30"
         >
           ← Back to Home
         </Link>

@@ -6,11 +6,16 @@ import { Mail, Lock, Eye, EyeOff, CheckCircle } from "lucide-react";
 import Image from "next/image";
 import { authClient } from "@/lib/auth-client";
 import { toast } from "react-toastify";
+import { useRouter, useSearchParams } from "next/navigation";
 
 const SigninForm = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [success, setSuccess] = useState(false);
+
+  const searchParams = useSearchParams();
+  const router = useRouter();
+  const redirectTo = searchParams.get("redirect") || "/";
 
   const {
     register,
@@ -32,7 +37,6 @@ const SigninForm = () => {
       const { data, error } = await authClient.signIn.email({
         email: email, // required
         password: password, // required
-        callbackURL: "/", // সফল লগইনের পর যেখানে রিডাইরেক্ট হবে
       });
 
       // ২. যদি ব্যাকএন্ড থেকে কোনো এরর আসে (ভুল পাসওয়ার্ড বা ইমেইল)
@@ -52,7 +56,7 @@ const SigninForm = () => {
         setTimeout(() => {
           setSuccess(false);
           // ড্যাশবোর্ড বা হোম পেজে রিডাইরেক্ট করতে চাইলে নিচের লাইনটি আনকমেন্ট করো
-          redirect("/");
+          router.push(redirectTo);
         }, 2200);
       }
     } catch (err) {
@@ -201,7 +205,7 @@ const SigninForm = () => {
       <p className="text-center text-slate-400 text-sm mt-8">
         Don&apos;t have an account?{" "}
         <a
-          href="/signup"
+          href={`/signup?redirect=${redirectTo}`}
           className="text-violet-400 hover:text-violet-300 font-medium hover:underline transition-colors"
         >
           Sign up
