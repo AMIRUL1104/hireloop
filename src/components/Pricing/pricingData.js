@@ -3,7 +3,7 @@
 
 export const PLANS = [
   {
-    id: "free",
+    id: "seeker_free",
     name: "Free",
     price: "$0",
     period: "forever",
@@ -18,9 +18,9 @@ export const PLANS = [
     ],
   },
   {
-    id: "pro",
+    id: "seeker_pro",
     name: "Pro",
-    price: "$29",
+    price: "$29.99",
     period: "per month",
     description: "Everything you need to land your next opportunity.",
     cta: "Upgrade to Pro",
@@ -34,9 +34,9 @@ export const PLANS = [
     ],
   },
   {
-    id: "enterprise",
+    id: "seeker_enterprise",
     name: "Enterprise",
-    price: "$99",
+    price: "$99.99",
     period: "per month",
     description: "Advanced tools for teams and power recruiters.",
     cta: "Upgrade to Enterprise",
@@ -55,16 +55,26 @@ export const PLANS = [
 
 // Feature comparison table data
 export const COMPARISON_FEATURES = [
-  { label: "Apply to Jobs",         free: "Up to 0",     pro: "Unlimited",  enterprise: "Unlimited" },
-  { label: "Saved Jobs",            free: "Up to 10",    pro: "Unlimited",  enterprise: "Unlimited" },
-  { label: "Job Posts",             free: false,         pro: false,        enterprise: "Unlimited" },
-  { label: "Analytics",             free: false,         pro: false,        enterprise: true        },
-  { label: "Salary Insights",       free: false,         pro: true,         enterprise: true        },
-  { label: "ATS Tools",             free: false,         pro: false,        enterprise: true        },
-  { label: "Priority Applications", free: false,         pro: true,         enterprise: true        },
-  { label: "Team Collaboration",    free: false,         pro: false,        enterprise: true        },
-  { label: "Custom Branding",       free: false,         pro: false,        enterprise: true        },
-  { label: "Dedicated Support",     free: false,         pro: false,        enterprise: true        },
+  {
+    label: "Apply to Jobs",
+    free: "Up to 0",
+    pro: "Unlimited",
+    enterprise: "Unlimited",
+  },
+  {
+    label: "Saved Jobs",
+    free: "Up to 10",
+    pro: "Unlimited",
+    enterprise: "Unlimited",
+  },
+  { label: "Job Posts", free: false, pro: false, enterprise: "Unlimited" },
+  { label: "Analytics", free: false, pro: false, enterprise: true },
+  { label: "Salary Insights", free: false, pro: true, enterprise: true },
+  { label: "ATS Tools", free: false, pro: false, enterprise: true },
+  { label: "Priority Applications", free: false, pro: true, enterprise: true },
+  { label: "Team Collaboration", free: false, pro: false, enterprise: true },
+  { label: "Custom Branding", free: false, pro: false, enterprise: true },
+  { label: "Dedicated Support", free: false, pro: false, enterprise: true },
 ];
 
 export const FAQS = [
