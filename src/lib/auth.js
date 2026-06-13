@@ -18,11 +18,8 @@ export const auth = betterAuth({
       role: {
         default: "seeker",
       },
-      company: {
-        default: null,
-      },
-      companyId: {
-        default: null,
+      plan: {
+        default: "seeker_free",
       },
     },
   },

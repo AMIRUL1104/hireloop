@@ -1,6 +1,7 @@
 import { stripe } from "@/lib/stripe";
 import { redirect } from "next/navigation";
 import Link from "next/link";
+import { createSubscriptions } from "@/lib/Server/actions/subscriptions";
 
 export default async function Success({ searchParams }) {
   const { session_id } = await searchParams;
@@ -11,6 +12,7 @@ export default async function Success({ searchParams }) {
   const {
     status,
     customer_details: { email: customerEmail },
+    metadata,
   } = await stripe.checkout.sessions.retrieve(session_id, {
     expand: ["line_items", "payment_intent"],
   });
@@ -20,6 +22,11 @@ export default async function Success({ searchParams }) {
   }
 
   if (status === "complete") {
+    const subsInfo = {
+      email: customerEmail,
+      planId: metadata.planId,
+    };
+    const result = await createSubscriptions(subsInfo);
     return (
       <main className="min-h-[calc(100vh-4rem)] w-full bg-[#0E121F] flex items-center justify-center p-4 relative overflow-hidden">
         {/* 🌌 ব্যাকগ্রাউন্ড গ্লো ইফেক্ট (Premium SaaS Feel) */}

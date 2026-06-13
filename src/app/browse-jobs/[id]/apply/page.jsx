@@ -12,11 +12,12 @@ import JobApplicationForm from "@/components/job-apply/Jobapplicationform";
 import JobSummaryCard from "@/components/job-apply/Jobsummarycard";
 import { getJobsById } from "@/lib/Server/api/jobs";
 import { getApplicationByApplicant } from "@/lib/Server/api/jobApplications";
+import { getPlanById } from "@/lib/Server/api/plans";
 
-const plan = {
-  name: "free",
-  maxApplicationPerMonth: 3,
-};
+// const plan = {
+//   name: "free",
+//   maxApplicationPerMonth: 3,
+// };
 
 // Empty state — job not found
 const JobNotFound = () => (
@@ -62,9 +63,15 @@ async function ApplyPage({ params }) {
     );
   }
 
+  const plan = await getPlanById(user?.plan);
+
+  // console.log(plan);
+
   const appliedJobs = await getApplicationByApplicant(user.id);
   const totalApplied = appliedJobs.length;
-  const isLimitReached = totalApplied >= plan.maxApplicationPerMonth;
+  // console.log(totalApplied, appliedJobs, "userId", user);
+
+  const isLimitReached = totalApplied >= plan.maxApplicationsPerMonth;
 
   // if job data not found in database
   const job = await getJobsById(id);
@@ -108,7 +115,7 @@ async function ApplyPage({ params }) {
                   {totalApplied}
                 </span>{" "}
                 <span className="text-gray-500 text-sm font-normal">
-                  out of {plan.maxApplicationPerMonth} this month
+                  out of {plan.maxApplicationsPerMonth} this month
                 </span>
               </p>
             </div>

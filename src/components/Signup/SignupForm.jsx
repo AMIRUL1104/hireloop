@@ -54,6 +54,8 @@ const SignupForm = () => {
     setIsSubmitting(true);
     clearErrors();
     setSuccess(false);
+
+    const plan = userdata.role === "seeker" ? "seeker_free" : "recruiter_free";
     try {
       const { name, email, password, role } = userdata;
       const { data, error } = await authClient.signUp.email({
@@ -61,6 +63,7 @@ const SignupForm = () => {
         name,
         email,
         password,
+        plan,
       });
       if (error) {
         console.error("Signup error:", error.message);

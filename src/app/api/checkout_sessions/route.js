@@ -10,11 +10,11 @@ export async function POST(request) {
     const origin = headersList.get("origin");
 
     const formData = await request.formData();
-    console.log(formData);
+    // console.log(formData);
     const planId = formData.get("plan_id");
     const priceId = PLAN_PRICE_ID[planId];
 
-    console.log(priceId);
+    // console.log(priceId);
 
     const user = await getUserSession();
     // Create Checkout Sessions from body params.
@@ -28,6 +28,7 @@ export async function POST(request) {
         },
       ],
       mode: "subscription",
+      metadata: { planId },
       success_url: `${origin}/pricing/success?session_id={CHECKOUT_SESSION_ID}`,
     });
     return NextResponse.redirect(session.url, 303);
