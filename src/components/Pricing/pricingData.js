@@ -77,6 +77,119 @@ export const COMPARISON_FEATURES = [
   { label: "Dedicated Support", free: false, pro: false, enterprise: true },
 ];
 
+// ====================recruiter data =======================
+// Central config — all recruiter plan data lives here
+// Update this file to change plans across the entire pricing page
+
+export const RECRUITER_PLANS = [
+  {
+    id: "recruiter_free",
+    name: "Free Trial",
+    price: "$0",
+    period: "forever",
+    description: "Ideal for startups looking to make their first hire.",
+    cta: "Start Free",
+    popular: false,
+    features: [
+      "Post up to 2 active jobs",
+      "Basic candidate management",
+      "View standard resumes",
+      "Email notifications",
+    ],
+  },
+  {
+    id: "recruiter_pro",
+    name: "Pro Talent",
+    price: "$79.99",
+    period: "per month",
+    description: "Perfect for growing companies with ongoing hiring needs.",
+    cta: "Upgrade to Pro",
+    popular: true,
+    features: [
+      "Post up to 10 active jobs",
+      "Advanced candidate tracking (ATS)",
+      "Direct messaging with candidates",
+      "Priority job placement",
+      "Basic analytics dashboard",
+    ],
+  },
+  {
+    id: "recruiter_enterprise",
+    name: "Enterprise",
+    price: "$249.99",
+    period: "per month",
+    description: "Scalable solutions for enterprise teams and agencies.",
+    cta: "Contact Sales",
+    popular: false,
+    features: [
+      "Unlimited active job posts",
+      "Full ATS integration & automation",
+      "Team collaboration (Unlimited seats)",
+      "Dedicated account manager",
+      "Custom company branding",
+      "Advanced analytics & API access",
+    ],
+  },
+];
+
+// Feature comparison table data for recruiters
+export const RECRUITER_COMPARISON_FEATURES = [
+  {
+    label: "Active Job Posts",
+    free: "Up to 2",
+    pro: "Up to 10",
+    enterprise: "Unlimited",
+  },
+  {
+    label: "Candidate Management (ATS)",
+    free: "Basic",
+    pro: "Advanced",
+    enterprise: "Full Custom",
+  },
+  {
+    label: "Direct Messaging",
+    free: false,
+    pro: true,
+    enterprise: true,
+  },
+  {
+    label: "Priority Job Placement",
+    free: false,
+    pro: true,
+    enterprise: true,
+  },
+  {
+    label: "Team Collaboration Seats",
+    free: "1 Seat",
+    pro: "Up to 5 Seats",
+    enterprise: "Unlimited",
+  },
+  {
+    label: "Analytics Dashboard",
+    free: false,
+    pro: "Basic",
+    enterprise: "Advanced Custom",
+  },
+  {
+    label: "Custom Employer Branding",
+    free: false,
+    pro: false,
+    enterprise: true,
+  },
+  {
+    label: "API & Webhooks Access",
+    free: false,
+    pro: false,
+    enterprise: true,
+  },
+  {
+    label: "Dedicated Support",
+    free: "Email only",
+    pro: "24/7 Priority",
+    enterprise: "Dedicated Manager",
+  },
+];
+
 export const FAQS = [
   {
     question: "Can I cancel anytime?",

@@ -7,19 +7,23 @@ import { usePathname } from "next/navigation"; // অ্যাক্টিভ �
 import { Bars, House, Person } from "@gravity-ui/icons";
 import { Button, Drawer } from "@heroui/react";
 import {
+  Bookmark,
   Briefcase,
   Building2,
+  CreditCard,
+  FileText,
   LayoutDashboard,
   Mail,
   PlusCircle,
   Settings,
 } from "lucide-react";
 
-export function DashboardSidebar() {
+export function DashboardSidebar({ user }) {
   const pathname = usePathname();
 
   // থিম এবং আইকন সেটআপ (সব আইকন ইউনিফর্ম লুকের জন্য লূসিড-রিয়্যাক্ট ব্যবহার করা হয়েছে)
-  const navItems = [
+
+  const recruiterNavlinks = [
     { icon: House, label: "Home", href: "/" },
     { icon: LayoutDashboard, label: "Dashboard", href: "/dashboard/recruiter" },
     { icon: Briefcase, label: "Job", href: "/dashboard/recruiter/job" },
@@ -41,6 +45,28 @@ export function DashboardSidebar() {
       href: "/dashboard/recruiter/settings",
     },
   ];
+  const seekerNavlinks = [
+    { icon: House, label: "Home", href: "/" },
+    { icon: LayoutDashboard, label: "Dashboard", href: "/dashboard/seeker" },
+    { icon: Briefcase, label: "Jobs", href: "/dashboard/seeker/jobs" },
+    {
+      icon: Bookmark,
+      label: "Saved Jobs",
+      href: "/dashboard/seeker/saved-jobs",
+    },
+    {
+      icon: FileText,
+      label: "Applications",
+      href: "/dashboard/seeker/applications",
+    },
+    { icon: CreditCard, label: "Billing", href: "/dashboard/seeker/billing" },
+    { icon: Settings, label: "Settings", href: "/dashboard/seeker/settings" },
+  ];
+  const navLinksMap = {
+    seeker: seekerNavlinks,
+    recruiter: recruiterNavlinks,
+  };
+  const navItems = navLinksMap[user.role] || "seeker";
 
   // সাইডবার আইটেম রেন্ডারার ফাংশন
   const renderNavItems = () => (

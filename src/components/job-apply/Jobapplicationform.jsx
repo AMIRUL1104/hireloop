@@ -99,6 +99,9 @@ const JobApplicationForm = ({ job, userId }) => {
         resume: resumeFile.name,
         jobId: job._id,
         applicantId: userId,
+        companyName: job.companyName,
+        companyId: job.companyId,
+        status: "applied",
       };
 
       // API কল করার সময় await ব্যবহার করা ভালো যেন রেসপন্স সফল হলে তবেই পরবর্তী লাইনে যায়

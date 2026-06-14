@@ -12,6 +12,20 @@ async function Navbar() {
     headers: await headers(),
   });
 
+  const { user } = sessionData || [];
+
+  let dashboardlink;
+  // console.log(sessionData);
+  if (sessionData) {
+    if (user.role === "seeker") {
+      dashboardlink = "/dashboard/seeker";
+    } else if (user.role === "recruiter") {
+      dashboardlink = "/dashboard/recruiter";
+    } else {
+      dashboardlink = "/dashboard/admin";
+    }
+  }
+
   return (
     <nav className="sticky top-0 z-40 w-full border-b border-separator bg-background/70 backdrop-blur-lg">
       {/* desktop view */}
@@ -44,6 +58,13 @@ async function Navbar() {
                 Pricing
               </Link>
             </li>
+            {sessionData && (
+              <li>
+                <Link href={dashboardlink} className="block py-2">
+                  Dashboard
+                </Link>
+              </li>
+            )}
           </ul>
 
           {/* auth buttons */}
