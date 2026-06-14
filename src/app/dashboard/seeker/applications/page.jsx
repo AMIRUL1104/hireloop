@@ -209,7 +209,7 @@ async function ApplicationsPage() {
                     {/* কলাম ৫: অ্যাকশন লিংক */}
                     <Table.Cell className="text-right px-6">
                       <Link
-                        href={`/dashboard/recruiter/job/${app.jobId}`}
+                        href={`/browse-jobs/${app.jobId}`}
                         className="text-gray-300 hover:text-white text-sm font-medium hover:underline inline-flex items-center gap-1 transition-all"
                       >
                         Details

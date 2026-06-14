@@ -14,11 +14,11 @@ export const serverMutation = async (path, data) => {
 
     const result = await response.json();
 
-    console.log("API Result:", result);
+    // console.log("API Result:", result);
 
     return result;
   } catch (error) {
-    console.log(error);
+    // console.log(error);
 
     return {
       error: "Something went wrong!",

@@ -9,6 +9,7 @@ import JobBadge from "./Jobbadge";
 import ViewJobButton from "./ViewJobButton";
 import SaveJobButton from "./SaveJobButton";
 import ApplyJobButton from "./ApplyJobButton";
+import getUserSession from "@/lib/core/session";
 
 // Formats salary — e.g. "$50,000 - $80,000 USD"
 const formatSalary = (min, max, currency) => {
@@ -32,7 +33,7 @@ const formatDeadline = (deadline) => {
 };
 
 // Server component — renders a single job card
-const JobCard = ({ job }) => {
+const JobCard = async ({ job }) => {
   const {
     _id,
     jobTitle,
@@ -50,6 +51,8 @@ const JobCard = ({ job }) => {
     responsibilities,
     createdAt,
   } = job;
+
+  const user = await getUserSession();
 
   const salary = formatSalary(salaryMin, salaryMax, currency);
   const deadlineInfo = formatDeadline(deadline);
@@ -160,7 +163,7 @@ const JobCard = ({ job }) => {
           <ViewJobButton jobId={_id} />
 
           {/* Save + Apply */}
-          <SaveJobButton jobId={_id} />
+          <SaveJobButton job={job} userId={user.id} />
           <ApplyJobButton jobId={_id} jobTitle={jobTitle} />
         </div>
       </div>

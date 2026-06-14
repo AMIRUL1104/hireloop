@@ -2,7 +2,9 @@ import JobCard from "./JobCard";
 import { HiOutlineMagnifyingGlass } from "react-icons/hi2";
 
 // Server component — renders the grid of job cards
-const JobGrid = ({ jobs }) => {
+const JobGrid = async ({ jobs }) => {
+  // const savedJobs = await getSavedJobsByApplicant(user.id)
+
   if (!jobs || jobs.length === 0) {
     return (
       <div className="flex flex-col items-center justify-center py-24 text-center">
@@ -28,3 +30,4 @@ const JobGrid = ({ jobs }) => {
 };
 
 export default JobGrid;
+// saved={savedJobs.JobId === job._id ? true:false}

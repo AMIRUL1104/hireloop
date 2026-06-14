@@ -12,6 +12,7 @@ import ShareJobButton from "@/components/JobDetails/Sharejobbutton";
 import JobMetaCard from "@/components/JobDetails/Jobmetacard";
 import CompanyInfoCard from "@/components/JobDetails/Companyinfocard";
 import SimilarJobs from "@/components/JobDetails/Similarjobs";
+import getUserSession from "@/lib/core/session";
 // Fetch a single job by ID from backend
 // async function getJob(id) {
 //   try {
@@ -41,6 +42,8 @@ import SimilarJobs from "@/components/JobDetails/Similarjobs";
 async function JobDetailsPage({ params }) {
   const { id } = await params;
   const job = await getJobsById(id);
+
+  const user = await getUserSession();
 
   // Empty state — job not found
   if (!job) {
@@ -104,7 +107,7 @@ async function JobDetailsPage({ params }) {
               <div className="bg-gray-900/60 border border-gray-700/50 rounded-2xl p-5 space-y-3">
                 <ApplyJobButton jobId={job._id} jobTitle={job.jobTitle} />
                 <div className="grid grid-cols-2 gap-2.5">
-                  <SaveJobButton jobId={job._id} />
+                  <SaveJobButton job={job} userId={user.id} />
                   <ShareJobButton jobTitle={job.jobTitle} />
                 </div>
               </div>

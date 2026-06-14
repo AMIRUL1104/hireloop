@@ -1,16 +1,55 @@
 "use client";
 
+import { SaveJobApplication } from "@/lib/Server/actions/saveJob";
 import { useState } from "react";
 import { HiOutlineBookmark, HiBookmark } from "react-icons/hi2";
 
 // Toggles save state locally — no backend yet
-const SaveJobButton = ({ jobId }) => {
+const SaveJobButton = ({ job, userId }) => {
   const [saved, setSaved] = useState(false);
 
-  const handleSave = () => {
+  const handleSave = async () => {
     setSaved((prev) => !prev);
-    // TODO: connect to /api/jobs/save endpoint
-    console.log(saved ? `Unsaved job ${jobId}` : `Saved job ${jobId}`);
+    // TODO: connect to save/unsave API endpoint
+    // console.log(saved ? `Unsaved job ${job._id}` : `Saved job ${job._id}`);
+
+    const {
+      _id,
+      jobTitle,
+      companyName,
+      companyLogo,
+      companyId,
+
+      salaryMin,
+      salaryMax,
+      currency,
+      city,
+      country,
+
+      deadline,
+    } = job;
+
+    const saveInfo = {
+      seekerId: userId,
+
+      jobId: _id,
+      companyId,
+
+      jobTitle,
+
+      companyName,
+      companyLogo,
+
+      salaryMin,
+      salaryMax,
+      currency,
+
+      city,
+      country,
+
+      deadline,
+    };
+    await SaveJobApplication(saveInfo);
   };
 
   return (
