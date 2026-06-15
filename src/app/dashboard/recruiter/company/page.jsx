@@ -56,10 +56,7 @@ export default async function CompanyDashboardPage() {
       <div className="absolute bottom-[-10%] right-[-10%] w-[400px] h-[400px] bg-purple-600/10 rounded-full blur-[120px] pointer-events-none" />
 
       <div className="max-w-7xl mx-auto relative z-10">
-        <CompanyGrid
-          initialCompanies={reqruiterCompanies}
-          recruiterId={recruiterId}
-        />
+        <CompanyGrid initialCompanies={reqruiterCompanies} user={user} />
       </div>
     </div>
   );

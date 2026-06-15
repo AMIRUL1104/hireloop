@@ -17,12 +17,12 @@ async function Navbar() {
   let dashboardlink;
   // console.log(sessionData);
   if (sessionData) {
-    if (user.role === "seeker") {
-      dashboardlink = "/dashboard/seeker";
+    if (user.role === "admin") {
+      dashboardlink = "/dashboard/admin";
     } else if (user.role === "recruiter") {
       dashboardlink = "/dashboard/recruiter";
     } else {
-      dashboardlink = "/dashboard/admin";
+      dashboardlink = "/dashboard/seeker";
     }
   }
 

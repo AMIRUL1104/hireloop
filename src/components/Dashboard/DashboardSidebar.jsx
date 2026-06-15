@@ -16,6 +16,7 @@ import {
   Mail,
   PlusCircle,
   Settings,
+  Users2,
 } from "lucide-react";
 
 export function DashboardSidebar({ user }) {
@@ -62,9 +63,20 @@ export function DashboardSidebar({ user }) {
     { icon: CreditCard, label: "Billing", href: "/dashboard/seeker/billing" },
     { icon: Settings, label: "Settings", href: "/dashboard/seeker/settings" },
   ];
+  const adminNavlinks = [
+    { icon: House, label: "Home", href: "/" },
+    { icon: LayoutDashboard, label: "Dashboard", href: "/dashboard/admin" },
+    { icon: Briefcase, label: "Jobs", href: "/dashboard/admin/jobs" },
+    { icon: Building2, label: "Companies", href: "/dashboard/admin/companies" },
+    { icon: Users2, label: "Users", href: "/dashboard/admin/users" },
+    { icon: CreditCard, label: "Payment", href: "/dashboard/admin/payment" },
+    { icon: Settings, label: "Settings", href: "/dashboard/admin/settings" },
+  ];
+
   const navLinksMap = {
     seeker: seekerNavlinks,
     recruiter: recruiterNavlinks,
+    admin: adminNavlinks,
   };
   const navItems = navLinksMap[user.role] || "seeker";
 

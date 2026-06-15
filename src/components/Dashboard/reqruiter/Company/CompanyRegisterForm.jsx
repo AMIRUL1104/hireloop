@@ -9,7 +9,12 @@ import Image from "next/image";
 import { AddCompany } from "@/lib/Server/actions/company";
 import { toast } from "react-toastify";
 
-export default function CompanyRegisterForm({ onClose, userId }) {
+export default function CompanyRegisterForm({
+  onClose,
+  user,
+  setCompanies,
+  companies,
+}) {
   const [isLoading, setIsLoading] = useState(false);
   const [imagePreview, setImagePreview] = useState(null);
   const [selectedFile, setSelectedFile] = useState(null);
@@ -66,14 +71,24 @@ export default function CompanyRegisterForm({ onClose, userId }) {
         }
       }
 
-      const finalPayload = { ...data, logo: logoUrl, recruiterId: userId };
+      const finalPayload = {
+        ...data,
+        logo: logoUrl,
+        recruiterId: user.id,
+        recruiterEmail: user.email,
+        status: "pending",
+      };
       console.log("Final Payload:", finalPayload);
 
       // await axios.post('/api/company', finalPayload)
 
       // alert("Company registered successfully! Status: Pending Admin Approval.");
       const result = await AddCompany(finalPayload);
+
+      // update company state
       if (result.insertedId) {
+        const newCompany = { _id: result.insertedId, ...finalPayload };
+        setCompanies([...companies, newCompany]);
         toast.success(
           "Company registered successfully! Status: Pending Admin Approval.",
         );

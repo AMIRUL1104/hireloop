@@ -456,37 +456,39 @@ export default function JobPostForm({ recruiter, reqruiterCompanies = [] }) {
                       </Select.Trigger>
                       <Select.Popover>
                         <ListBox>
-                          {reqruiterCompanies.map((company) => (
-                            <ListBox.Item
-                              key={company._id}
-                              id={company._id}
-                              textValue={company.name}
-                            >
-                              <div className="flex items-center gap-2.5 py-0.5">
-                                {company.logo ? (
-                                  <Image
-                                    src={company.logo}
-                                    alt={company.name}
-                                    width={28}
-                                    height={28}
-                                    className="rounded-md object-cover border border-gray-200 dark:border-gray-700 shrink-0"
-                                  />
-                                ) : (
-                                  <div className="w-7 h-7 rounded-md bg-linear-to-br from-blue-600 to-purple-600 flex items-center justify-center text-white text-xs font-bold shrink-0">
-                                    {company.name?.[0]?.toUpperCase()}
+                          {reqruiterCompanies.map((company) => {
+                            company.status.toLowerCase() === "approved" && (
+                              <ListBox.Item
+                                key={company._id}
+                                id={company._id}
+                                textValue={company.name}
+                              >
+                                <div className="flex items-center gap-2.5 py-0.5">
+                                  {company.logo ? (
+                                    <Image
+                                      src={company.logo}
+                                      alt={company.name}
+                                      width={28}
+                                      height={28}
+                                      className="rounded-md object-cover border border-gray-200 dark:border-gray-700 shrink-0"
+                                    />
+                                  ) : (
+                                    <div className="w-7 h-7 rounded-md bg-linear-to-br from-blue-600 to-purple-600 flex items-center justify-center text-white text-xs font-bold shrink-0">
+                                      {company.name?.[0]?.toUpperCase()}
+                                    </div>
+                                  )}
+                                  <div className="min-w-0">
+                                    <p className="text-sm font-medium text-gray-900 dark:text-white truncate">
+                                      {company.name}
+                                    </p>
+                                    <p className="text-xs text-gray-500 dark:text-gray-400 truncate">
+                                      {company.industry}
+                                    </p>
                                   </div>
-                                )}
-                                <div className="min-w-0">
-                                  <p className="text-sm font-medium text-gray-900 dark:text-white truncate">
-                                    {company.name}
-                                  </p>
-                                  <p className="text-xs text-gray-500 dark:text-gray-400 truncate">
-                                    {company.industry}
-                                  </p>
                                 </div>
-                              </div>
-                            </ListBox.Item>
-                          ))}
+                              </ListBox.Item>
+                            );
+                          })}
                         </ListBox>
                       </Select.Popover>
                     </Select>

@@ -7,3 +7,10 @@ export async function getReqruiterCompanies(recruiterId) {
 
   return await response.json();
 }
+
+// ========== all companies for admin =====================
+import { serverFetch } from "@/lib/core/serverFetch";
+
+export const getAllCompanies = async (status) => {
+  return serverFetch(`/api/companies?status=${status}`);
+};
