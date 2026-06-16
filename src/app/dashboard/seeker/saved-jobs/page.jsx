@@ -200,7 +200,7 @@ export default async function SavedJobs() {
                   {/* অ্যাপ্লাই বাটন */}
                   {!deadlineInfo.isExpired ? (
                     <Link
-                      href={`/dashboard/jobs/${job.jobId}`}
+                      href={`/browse-jobs/${job.jobId}/apply`}
                       className="contents"
                     >
                       <Button

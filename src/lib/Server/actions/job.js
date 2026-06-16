@@ -1,21 +1,27 @@
 "use server";
 
-const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
+import { serverMutation } from "@/lib/core/server";
 
 export async function AddJobPost(formData) {
-  // console.log(formData);
+  const result = await serverMutation(`/api/jobs`, formData);
 
-  try {
-    const response = await fetch(`${baseUrl}/api/jobs`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(formData),
-    });
-
-    return await response.json();
-  } catch (error) {
-    return { error: "Something went wrong!" };
+  if (result.modifiedCount > 0) {
+    console.log("job posted");
   }
+  return result;
+
+  // console.log("API Result:", result);
+  // try {
+  //   const response = await fetch(`${baseUrl}/api/jobs`, {
+  //     method: "POST",
+  //     headers: {
+  //       "Content-Type": "application/json",
+  //     },
+  //     body: JSON.stringify(formData),
+  //   });
+
+  //   return await response.json();
+  // } catch (error) {
+  //   return { error: "Something went wrong!" };
+  // }
 }
